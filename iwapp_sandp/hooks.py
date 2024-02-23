@@ -27,7 +27,8 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
+"Purchase Receipt" : "public/js/purchase_receipt.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -116,13 +117,20 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	# "*": {
+	# 	"on_update": "method",.py
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# }
+    "Purchase Order": {
+        "validate": "iwapp_sandp.events.purchase_order.validate"
+	},
+     "Purchase Receipt": {
+        "validate": "iwapp_sandp.events.purchase_receipt.validate",
+        "before_save": "iwapp_sandp.events.purchase_receipt.before_save"
+	},
+}
 
 # Scheduled Tasks
 # ---------------
@@ -213,3 +221,36 @@ app_license = "MIT"
 # auth_hooks = [
 # 	"iwapp_sandp.auth.validate"
 # ]
+
+fixtures = [{
+    "dt":"Custom Field",
+    "filters": [
+        ["name", "in", (
+            "Item-custom_has_model_id", "Item-custom_model_id",
+            "Purchase Order Item-custom_has_model_id", "Purchase Order Item-custom_model_id",
+            "Purchase Receipt Item-custom_has_model_id", "Purchase Receipt Item-custom_model_id",
+            "Purchase Receipt-custom_quick_item_entry", "Purchase Receipt-custom_purchase_item_entry"
+            )]
+    ]
+    },
+    # {"dt":"Property Setter",
+    #     "filters": [
+    #         ["doc_type", "in", (
+    #             "Lead",
+    #             "Employee",
+    #             "Supplier",
+    #             "Customer",
+    #             "Opportunity",
+    #             "Quotation",
+    #             "Opportunity Item",
+    #             "Address"
+    #         )]
+    #     ]
+    # }
+    # {
+    #     "dt": "Translation",
+    #     "filters": [
+    #             ["name", "in", ("ec0adfc6e5")]
+    #     ],
+    # }
+]

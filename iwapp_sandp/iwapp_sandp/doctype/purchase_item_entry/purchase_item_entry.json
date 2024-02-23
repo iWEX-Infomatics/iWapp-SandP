@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-23 13:35:05.059235",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "purchase_item",
+  "model_number",
+  "column_break_grk4d",
+  "item_qty",
+  "unit",
+  "item_rate",
+  "discount_percentage",
+  "section_break_a5uxz",
+  "serial_number"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "purchase_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Purchase Item",
+   "options": "Item"
+  },
+  {
+   "columns": 2,
+   "fieldname": "model_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Model ID",
+   "options": "Item Model ID"
+  },
+  {
+   "fieldname": "column_break_grk4d",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "item_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "columns": 1,
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Unit",
+   "options": "UOM"
+  },
+  {
+   "columns": 2,
+   "fieldname": "item_rate",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "discount_percentage",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "label": "Disc %",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_a5uxz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 2,
+   "fieldname": "serial_number",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Serial No"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-02-23 13:37:03.543826",
+ "modified_by": "Administrator",
+ "module": "iWapp-SandP",
+ "name": "Purchase Item Entry",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
