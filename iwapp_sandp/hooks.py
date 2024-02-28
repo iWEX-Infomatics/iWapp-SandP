@@ -28,8 +28,10 @@ app_license = "MIT"
 
 # include js in doctype views
 doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
-"Purchase Receipt" : "public/js/purchase_receipt.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+"Purchase Receipt" : "public/js/purchase_receipt.js",
+"Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js"}
+doctype_list_js = {"Customer" : "public/js/customer_list.js",
+"Supplier" : "public/js/supplier_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -130,6 +132,12 @@ doc_events = {
         "validate": "iwapp_sandp.events.purchase_receipt.validate",
         "before_save": "iwapp_sandp.events.purchase_receipt.before_save"
 	},
+     "Customer": {
+        "before_save": "iwapp_sandp.events.customer.before_save"
+	},
+    # "Supplier": {
+    #     "before_save": "iwapp_sandp.events.supplier.before_save"
+	# },
 }
 
 # Scheduled Tasks
@@ -233,20 +241,14 @@ fixtures = [{
             )]
     ]
     },
-    # {"dt":"Property Setter",
-    #     "filters": [
-    #         ["doc_type", "in", (
-    #             "Lead",
-    #             "Employee",
-    #             "Supplier",
-    #             "Customer",
-    #             "Opportunity",
-    #             "Quotation",
-    #             "Opportunity Item",
-    #             "Address"
-    #         )]
-    #     ]
-    # }
+    {"dt":"Property Setter",
+        "filters": [
+            ["doc_type", "in", (
+                "Supplier",
+                "Customer",
+            )]
+        ]
+    }
     # {
     #     "dt": "Translation",
     #     "filters": [
