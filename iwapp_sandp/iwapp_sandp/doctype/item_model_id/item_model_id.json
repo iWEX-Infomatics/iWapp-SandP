@@ -11,8 +11,10 @@
   "brand",
   "item",
   "model_id",
+  "specification",
   "column_break_adrcw",
-  "specification"
+  "has_serial_number",
+  "serial_no"
  ],
  "fields": [
   {
@@ -57,11 +59,24 @@
    "fieldname": "specification",
    "fieldtype": "Small Text",
    "label": "Specification"
+  },
+  {
+   "default": "0",
+   "fetch_from": "item.has_serial_no",
+   "fieldname": "has_serial_number",
+   "fieldtype": "Check",
+   "label": "Has Serial No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "serial_no",
+   "fieldtype": "Small Text",
+   "label": "Serial No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-23 13:40:20.230365",
+ "modified": "2024-03-08 15:37:03.415534",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Item Model ID",

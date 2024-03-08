@@ -29,7 +29,8 @@ app_license = "MIT"
 # include js in doctype views
 doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
 "Purchase Receipt" : "public/js/purchase_receipt.js",
-"Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js"}
+"Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js",
+"Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js"}
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -130,10 +131,14 @@ doc_events = {
 	},
      "Purchase Receipt": {
         "validate": "iwapp_sandp.events.purchase_receipt.validate",
-        "before_save": "iwapp_sandp.events.purchase_receipt.before_save"
+        "before_save": "iwapp_sandp.events.purchase_receipt.before_save",
+        "on_submit": "iwapp_sandp.events.purchase_receipt.on_submit"
 	},
      "Customer": {
         "before_save": "iwapp_sandp.events.customer.before_save"
+	},
+    "Stock Entry": {
+        "validate": "iwapp_sandp.events.stock_entry.validate"
 	},
     # "Supplier": {
     #     "before_save": "iwapp_sandp.events.supplier.before_save"
@@ -237,7 +242,11 @@ fixtures = [{
             "Item-custom_has_model_id", "Item-custom_model_id",
             "Purchase Order Item-custom_has_model_id", "Purchase Order Item-custom_model_id",
             "Purchase Receipt Item-custom_has_model_id", "Purchase Receipt Item-custom_model_id",
-            "Purchase Receipt-custom_quick_item_entry", "Purchase Receipt-custom_purchase_item_entry"
+            "Purchase Receipt-custom_quick_item_entry", "Purchase Receipt-custom_purchase_item_entry",
+            "Purchase Invoice Item-custom_has_model_id", "Purchase Invoice Item-custom_model_id",
+            "Purchase Order Item-custom_has_serial_no", "Purchase Receipt Item-custom_has_serial_no",
+            "Serial No-custom_model_id", "Stock Entry Detail-custom_model_id", "Stock Reconciliation Item-custom_model_id",
+            "Purchase Invoice Item-custom_has_serial_no"
             )]
     ]
     },

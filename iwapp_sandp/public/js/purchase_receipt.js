@@ -1,6 +1,6 @@
 frappe.ui.form.on('Purchase Receipt', {
     refresh: function (frm) {
-        if (frm.doc.docstastus != 1) {
+        if (frm.doc.docstatus != 1) {
             frm.add_custom_button(__('Create Model Id'), function () {
                 if (frm.doc.items) {
                     frm.clear_table("custom_purchase_item_entry")
@@ -14,6 +14,7 @@ frappe.ui.form.on('Purchase Receipt', {
                             // child.item_rate = item.rate
                             // child.discount_percentage = item.discount_percentage
                             child.unit = item.uom
+                            child.has_serial_no = item.custom_has_serial_no
                             frm.refresh_fields("custom_purchase_item_entry");
                         }
                     })
