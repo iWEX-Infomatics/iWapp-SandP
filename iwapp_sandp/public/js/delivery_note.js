@@ -1,4 +1,4 @@
-frappe.ui.form.on("Stock Entry", {
+frappe.ui.form.on("Delivery Note", {
     refresh: function (frm) {
         frm.fields_dict['items'].grid.get_field('custom_model_id').get_query = function (doc, cdt, cdn) {
             var child = locals[cdt][cdn];

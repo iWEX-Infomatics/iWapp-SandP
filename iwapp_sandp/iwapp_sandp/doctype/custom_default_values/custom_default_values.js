@@ -9,7 +9,7 @@ frappe.ui.form.on('Custom Default Values', {
                 filters: {
                     'company': child.company,
 					'account_currency':child.currency,
-					'name':"Debtors" + " - " + child.abbreviation
+					'name':"Debtors" + " - " + child.currency + " - " + child.abbreviation
                 }
             };
         };
@@ -19,7 +19,7 @@ frappe.ui.form.on('Custom Default Values', {
                 filters: {
                     'company': child.company,
 					'account_currency':child.currency,
-					'name':"Creditors" + " - " + child.abbreviation
+					'name':"Creditors" + " - " + child.currency + " - " + child.abbreviation
                 }
             };
         };

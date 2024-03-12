@@ -30,7 +30,10 @@ app_license = "MIT"
 doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
 "Purchase Receipt" : "public/js/purchase_receipt.js",
 "Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js",
-"Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js"}
+"Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js",
+"Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
+"Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
+"Item" : "public/js/item.js"}
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -140,9 +143,18 @@ doc_events = {
     "Stock Entry": {
         "validate": "iwapp_sandp.events.stock_entry.validate"
 	},
-    # "Supplier": {
-    #     "before_save": "iwapp_sandp.events.supplier.before_save"
-	# },
+    "Delivery Note": {
+        "validate": "iwapp_sandp.events.delivery_note.validate"
+    },
+    "Sales Invoice": {
+        "validate": "iwapp_sandp.events.sales_invoice.validate"
+    },
+    "Pick List": {
+        "validate": "iwapp_sandp.events.pick_list.validate"
+    },
+    "Stock Reconciliation": {
+        "validate": "iwapp_sandp.events.stock_reconciliation.validate"
+    }
 }
 
 # Scheduled Tasks
@@ -246,7 +258,8 @@ fixtures = [{
             "Purchase Invoice Item-custom_has_model_id", "Purchase Invoice Item-custom_model_id",
             "Purchase Order Item-custom_has_serial_no", "Purchase Receipt Item-custom_has_serial_no",
             "Serial No-custom_model_id", "Stock Entry Detail-custom_model_id", "Stock Reconciliation Item-custom_model_id",
-            "Purchase Invoice Item-custom_has_serial_no"
+            "Purchase Invoice Item-custom_has_serial_no", "Sales Order Item-custom_model_item", "Delivery Note Item-custom_model_id",
+            "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage"
             )]
     ]
     },
