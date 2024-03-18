@@ -33,7 +33,8 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js",
 "Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
-"Item" : "public/js/item.js"}
+"Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js"
+}
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -259,7 +260,8 @@ fixtures = [{
             "Purchase Order Item-custom_has_serial_no", "Purchase Receipt Item-custom_has_serial_no",
             "Serial No-custom_model_id", "Stock Entry Detail-custom_model_id", "Stock Reconciliation Item-custom_model_id",
             "Purchase Invoice Item-custom_has_serial_no", "Sales Order Item-custom_model_item", "Delivery Note Item-custom_model_id",
-            "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage"
+            "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage",
+            "Material Request Item-custom_model_id"
             )]
     ]
     },
