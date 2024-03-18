@@ -9,7 +9,7 @@ frappe.ui.form.on('Custom Default Values', {
                 filters: {
                     'company': child.company,
                     'account_currency': child.currency,
-                    'name': "Debtors" + " " + child.currency + "- " + child.abbreviation
+                    'name': "Debtors" + " " + child.currency + " - " + child.abbreviation
                 }
             };
         };
