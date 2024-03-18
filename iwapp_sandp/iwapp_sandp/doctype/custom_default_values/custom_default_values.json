@@ -7,7 +7,10 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "default_values"
+  "default_values",
+  "item_tax_section",
+  "custom_item_tax_percentage",
+  "taxes"
  ],
  "fields": [
   {
@@ -15,12 +18,29 @@
    "fieldtype": "Table",
    "label": "Default Values",
    "options": "Custom Default Values Child"
+  },
+  {
+   "fieldname": "item_tax_section",
+   "fieldtype": "Section Break",
+   "label": "Item Tax"
+  },
+  {
+   "fieldname": "custom_item_tax_percentage",
+   "fieldtype": "Select",
+   "label": "Item Tax Percentage",
+   "options": "0%\n5%\n12%\n18%\n28%"
+  },
+  {
+   "fieldname": "taxes",
+   "fieldtype": "Table",
+   "label": "Taxes",
+   "options": "Item Tax"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-28 12:24:52.908792",
+ "modified": "2024-03-18 22:13:19.304584",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Custom Default Values",
