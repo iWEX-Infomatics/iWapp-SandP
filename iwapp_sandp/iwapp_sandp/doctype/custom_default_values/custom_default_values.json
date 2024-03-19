@@ -9,8 +9,9 @@
  "field_order": [
   "default_values",
   "item_tax_section",
-  "custom_item_tax_percentage",
-  "taxes"
+  "taxes",
+  "item_defaults_section",
+  "item_defaults"
  ],
  "fields": [
   {
@@ -21,26 +22,29 @@
   },
   {
    "fieldname": "item_tax_section",
-   "fieldtype": "Section Break",
-   "label": "Item Tax"
-  },
-  {
-   "fieldname": "custom_item_tax_percentage",
-   "fieldtype": "Select",
-   "label": "Item Tax Percentage",
-   "options": "0%\n5%\n12%\n18%\n28%"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "taxes",
    "fieldtype": "Table",
    "label": "Taxes",
-   "options": "Item Tax"
+   "options": "Custom Default Values Taxes"
+  },
+  {
+   "fieldname": "item_defaults_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_defaults",
+   "fieldtype": "Table",
+   "label": "Item Defaults",
+   "options": "Custom Item Defaults"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-18 22:13:19.304584",
+ "modified": "2024-03-19 14:54:45.951251",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Custom Default Values",

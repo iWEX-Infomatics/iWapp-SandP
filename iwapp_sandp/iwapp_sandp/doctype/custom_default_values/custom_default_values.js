@@ -23,29 +23,53 @@ frappe.ui.form.on('Custom Default Values', {
                 }
             };
         };
-    },
-    custom_item_tax_percentage:function(frm){
-        frm.clear_table("taxes")
-        frm.refresh_field("taxes")
-        if(frm.doc.custom_item_tax_percentage){
-            frappe.call({
-                method:"iwapp_sandp.events.item.get_tax_template",
-                args:{
-                    tax:frm.doc.custom_item_tax_percentage
-                },
-                callback:function(r){
-                    if(r.message){
-                        $.each(r.message, function(idx, tax){
-                            let child = frm.add_child("taxes");
-                            child.item_tax_template = tax.name
-                            child.tax_category = tax.category
-                            frm.refresh_fields("taxes");
-                        })
-                    }
+        frm.set_query("company", "default_values", function () {
+            return {
+                filters: {
+                    is_group: 0
                 }
-            })
-        }
-    }
+            };
+        })
+        frm.set_query("company", "taxes", function () {
+            return {
+                filters: {
+                    is_group: 0
+                }
+            };
+        })
+        frm.set_query("company", "item_defaults", function () {
+            return {
+                filters: {
+                    is_group: 0
+                }
+            };
+        })
+        frm.fields_dict['item_defaults'].grid.get_field('warehouse').get_query = function (doc, cdt, cdn) {
+            var child = locals[cdt][cdn];
+            return {
+                filters: {
+                    'company': child.company,
+                    'is_group': 0
+                }
+            };
+        };
+        frm.fields_dict['item_defaults'].grid.get_field('default_income_account').get_query = function (doc, cdt, cdn) {
+            var child = locals[cdt][cdn];
+            return {
+                filters: {
+                    'company': child.company,
+                }
+            };
+        };
+        frm.fields_dict['item_defaults'].grid.get_field('default_expense_account').get_query = function (doc, cdt, cdn) {
+            var child = locals[cdt][cdn];
+            return {
+                filters: {
+                    'company': child.company,
+                }
+            };
+        };
+    },
 });
 
 frappe.ui.form.on('Custom Default Values Child', {
