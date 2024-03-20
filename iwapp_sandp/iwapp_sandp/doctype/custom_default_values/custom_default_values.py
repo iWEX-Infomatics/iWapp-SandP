@@ -11,20 +11,6 @@ class CustomDefaultValues(Document):
 			for i in self.default_values:
 				if i.tax_category in ["Overseas", "Export"]:
 					i.country = ""
-		# Get a list of items
-		items = frappe.get_all("Item", fields=["name"])
-		# Iterate over each item
-		for item in items:
-			item_name = item.name
-			# Fetch the child table data for the current item
-			item_defaults = frappe.db.get_all("Item Default", filters={"parent": item_name}, fields=["name", "company"])
-			# print("item_defaults", item_defaults)
-			# Iterate over each row in the child table
-			for default_row in item_defaults:
-				if default_row.company == "CAITS Group of Companies":
-					# Delete the row if the company matches the specified value
-					frappe.db.delete("Item Default", default_row.name)
-
 		# company_not_grp = frappe.db.get_list("Company", filters = {"is_group":0}, fields = ["name", "abbr"])
 		# tax_category = frappe.db.get_list("Tax Category", pluck = "name")
 		# tax_list = []

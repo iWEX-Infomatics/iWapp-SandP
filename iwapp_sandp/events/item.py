@@ -2,10 +2,11 @@ import frappe
 
 @frappe.whitelist()
 def get_tax_template(tax):
-    custom_default_child = frappe.db.get_list('Custom Default Values Taxes', fields = ['company', 'abbr', 'tax_category'])
+    # custom_default_child = frappe.db.get_doc('Custom Default Values Taxes', fields = ['company', 'abbr', 'tax_category'])
+    custom_default_child = frappe.get_doc('Custom Default Values')
     companies = []
     tax_category = []
-    for i in custom_default_child:
+    for i in custom_default_child.taxes:
         companies.append({"company": (i.get("company"))})
         tax_category.append({"tax_category": (i.get("tax_category"))})
     # set tax_category and company from custom default values as unique
