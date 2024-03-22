@@ -1,7 +1,7 @@
 frappe.ui.form.on("Item", {
     refresh:function(frm){
-        
-    }
+        // your code here
+    },
     // custom_item_tax_percentage:function(frm){
     //     frm.clear_table("taxes")
     //     frm.refresh_field("taxes")

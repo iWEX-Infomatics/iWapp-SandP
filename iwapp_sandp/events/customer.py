@@ -6,7 +6,7 @@ def before_save(doc, method):
     if len(default_doc.default_values) > 0:
         doc.accounts = []
         for i in default_doc.default_values:
-            if i.currency == doc.default_currency:
+            if i.currency == doc.default_currency and i.tax_category == doc.tax_category:
                 doc.append("accounts", {
                     "company":i.company,
                     "account":i.customer_account
@@ -21,7 +21,7 @@ def update_account():
         if len(default_doc.default_values) > 0:
             customer.accounts = []
             for d in default_doc.default_values:
-                if d.currency == customer.default_currency:
+                if d.currency == customer.default_currency and d.tax_category == customer.tax_category:
                     customer.append("accounts", {
                         "company": d.company,
                         "account": d.customer_account
