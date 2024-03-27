@@ -3,10 +3,14 @@ import frappe
 def validate(doc, method):
     if doc.items:
         for i in doc.items:
-            if i.serial_no:
-                data_list = [item.strip() for item in i.serial_no.replace(',', '\n').split('\n') if item]
-                if data_list:
-                    for serial_no in data_list:
-                        model_id = frappe.db.get_value("Serial No", serial_no, "custom_model_id")
-                        if model_id:
-                            i.custom_model_id = model_id
+            if i.custom_model_id:
+                i.custom_brand = frappe.db.get_value("Item Model ID", i.custom_model_id, "brand")
+def on_submit(doc, method):
+    if doc.items:
+        for item in doc.items:
+            if item.serial_no:
+                frappe.db.set_value("Item Model ID", item.custom_model_id, "serial_no", item.serial_no)
+                # Replace commas with newline characters and split the string into a list and Remove spaces from each element in the list
+                data_list = [i.strip() for i in item.serial_no.replace(',', '\n').split('\n') if i]
+                for i in data_list:
+                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "brand":item.custom_brand, "custom_update_model_id":1})

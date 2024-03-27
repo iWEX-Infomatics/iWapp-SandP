@@ -33,10 +33,12 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js",
 "Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
-"Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js"
+"Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js",
+"Installation Note" : "public/js/installation_note.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
-"Supplier" : "public/js/supplier_list.js"}
+"Supplier" : "public/js/supplier_list.js",
+"Serial No" : "public/js/serial_no_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -154,8 +156,18 @@ doc_events = {
         "validate": "iwapp_sandp.events.pick_list.validate"
     },
     "Stock Reconciliation": {
-        "validate": "iwapp_sandp.events.stock_reconciliation.validate"
-    }
+        "validate": "iwapp_sandp.events.stock_reconciliation.validate",
+        "on_submit": "iwapp_sandp.events.stock_reconciliation.on_submit"
+    },
+    "Serial No": {
+        "before_save": "iwapp_sandp.events.serial_no.before_save"
+    },
+     "Item": {
+        "before_save": "iwapp_sandp.events.item.before_save"
+    },
+    "Installation Note": {
+        "validate": "iwapp_sandp.events.installation_note.validate"
+    }   
 }
 
 # Scheduled Tasks
@@ -261,7 +273,9 @@ fixtures = [{
             "Serial No-custom_model_id", "Stock Entry Detail-custom_model_id", "Stock Reconciliation Item-custom_model_id",
             "Purchase Invoice Item-custom_has_serial_no", "Sales Order Item-custom_model_item", "Delivery Note Item-custom_model_id",
             "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage",
-            "Material Request Item-custom_model_id"
+            "Material Request Item-custom_model_id", "Item-custom_item_default", "Serial No-custom_update_model_id",
+            "Installation Note Item-custom_model_id", "Stock Reconciliation Item-custom_brand",
+            "Stock Entry Detail-custom_brand", "Pick List Item-custom_brand", "Installation Note Item-custom_brand"
             )]
     ]
     },
@@ -270,6 +284,11 @@ fixtures = [{
             ["doc_type", "in", (
                 "Supplier",
                 "Customer",
+                "Delivery Note Item",
+                "Purchase Receipt Item",
+                "Purchase Order Item",
+                "Sales Invoice Item",
+                "Sales Order Item",
             )]
         ]
     }
