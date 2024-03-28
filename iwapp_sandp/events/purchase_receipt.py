@@ -22,6 +22,8 @@ def before_save(doc, method):
                     specification = brand_and_spec[1] if brand_and_spec[1] else ""
                     item.description = f"{item.item_code}-{specification}-{brand}-{item.custom_model_id}"
                     item.brand = brand
+            if item.custom_model_id and item.serial_no:
+                frappe.db.set_value("Item", item.item_code, "has_serial_no", 1)
 
 def on_submit(doc, method):
     if doc.items:
