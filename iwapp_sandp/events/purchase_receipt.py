@@ -1,4 +1,5 @@
 import frappe
+from bs4 import BeautifulSoup
 
 def validate(doc, method):
     if doc.custom_purchase_item_entry:
@@ -33,4 +34,4 @@ def on_submit(doc, method):
                 # Replace commas with newline characters and split the string into a list and Remove spaces from each element in the list
                 data_list = [i.strip() for i in item.serial_no.replace(',', '\n').split('\n') if i]
                 for i in data_list:
-                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "brand":item.brand, "custom_update_model_id":1})
+                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "serial_no_details" : item.brand, "brand":item.brand, "custom_update_model_id":1})

@@ -13,4 +13,4 @@ def on_submit(doc, method):
                 # Replace commas with newline characters and split the string into a list and Remove spaces from each element in the list
                 data_list = [i.strip() for i in item.serial_no.replace(',', '\n').split('\n') if i]
                 for i in data_list:
-                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "brand":item.custom_brand, "custom_update_model_id":1})
+                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "brand":item.custom_brand, "serial_no_details" : item.custom_brand, "custom_update_model_id":1})
