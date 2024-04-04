@@ -11,3 +11,8 @@ def validate(doc, method):
                         if model_id_and_brand:
                             i.custom_model_id = model_id_and_brand[0]
                             i.custom_brand = model_id_and_brand[1]
+def before_save(doc, method):
+    if doc.locations:
+        for i in doc.locations:
+            if i.custom_model_id and i.custom_brand:
+                i.description = f"{i.item_code} {i.custom_brand} {i.custom_model_id}"

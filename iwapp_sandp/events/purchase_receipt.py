@@ -20,8 +20,8 @@ def before_save(doc, method):
                 brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])
                 if brand_and_spec:
                     brand = brand_and_spec[0] if brand_and_spec[0] else ""
-                    specification = brand_and_spec[1] if brand_and_spec[1] else ""
-                    item.description = f"{item.item_code}-{specification}-{brand}-{item.custom_model_id}"
+                    # specification = brand_and_spec[1] if brand_and_spec[1] else ""
+                    item.description = f"{item.item_code} {brand} {item.custom_model_id}"
                     item.brand = brand
             if item.custom_model_id and item.serial_no:
                 frappe.db.set_value("Item", item.item_code, "has_serial_no", 1)
@@ -34,4 +34,4 @@ def on_submit(doc, method):
                 # Replace commas with newline characters and split the string into a list and Remove spaces from each element in the list
                 data_list = [i.strip() for i in item.serial_no.replace(',', '\n').split('\n') if i]
                 for i in data_list:
-                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "serial_no_details" : item.brand, "brand":item.brand, "custom_update_model_id":1})
+                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "serial_no_details" : item.description, "brand":item.brand, "custom_update_model_id":1})

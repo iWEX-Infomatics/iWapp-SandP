@@ -133,7 +133,8 @@ doc_events = {
 	# 	"on_trash": "method"
 	# }
     "Purchase Order": {
-        "validate": "iwapp_sandp.events.purchase_order.validate"
+        "validate": "iwapp_sandp.events.purchase_order.validate",
+        "before_save": "iwapp_sandp.events.purchase_order.before_save"
 	},
      "Purchase Receipt": {
         "validate": "iwapp_sandp.events.purchase_receipt.validate",
@@ -144,16 +145,23 @@ doc_events = {
         "before_save": "iwapp_sandp.events.customer.before_save"
 	},
     "Stock Entry": {
-        "validate": "iwapp_sandp.events.stock_entry.validate"
+        "validate": "iwapp_sandp.events.stock_entry.validate",
+        "before_save": "iwapp_sandp.events.stock_entry.before_save"
 	},
     "Delivery Note": {
-        "validate": "iwapp_sandp.events.delivery_note.validate"
+        "validate": "iwapp_sandp.events.delivery_note.validate",
+        "before_save": "iwapp_sandp.events.delivery_note.before_save"
     },
     "Sales Invoice": {
-        "validate": "iwapp_sandp.events.sales_invoice.validate"
+        "validate": "iwapp_sandp.events.sales_invoice.validate",
+        "before_save": "iwapp_sandp.events.sales_invoice.before_save"
+    },
+    "Sales Order": {
+        "validate": "iwapp_sandp.events.sales_order.validate"
     },
     "Pick List": {
-        "validate": "iwapp_sandp.events.pick_list.validate"
+        "validate": "iwapp_sandp.events.pick_list.validate",
+        "before_save": "iwapp_sandp.events.pick_list.before_save"
     },
     "Stock Reconciliation": {
         "validate": "iwapp_sandp.events.stock_reconciliation.validate",
@@ -166,7 +174,8 @@ doc_events = {
         "before_save": "iwapp_sandp.events.item.before_save"
     },
     "Installation Note": {
-        "validate": "iwapp_sandp.events.installation_note.validate"
+        "validate": "iwapp_sandp.events.installation_note.validate",
+        "before_save": "iwapp_sandp.events.installation_note.before_save"
     }   
 }
 
@@ -275,7 +284,8 @@ fixtures = [{
             "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage",
             "Material Request Item-custom_model_id", "Item-custom_item_default", "Serial No-custom_update_model_id",
             "Installation Note Item-custom_model_id", "Stock Reconciliation Item-custom_brand",
-            "Stock Entry Detail-custom_brand", "Pick List Item-custom_brand", "Installation Note Item-custom_brand"
+            "Stock Entry Detail-custom_brand", "Pick List Item-custom_brand", "Installation Note Item-custom_brand",
+            "Stock Reconciliation Item-custom_section_break_m0cwa", "Stock Reconciliation Item-custom_description"
             )]
     ]
     },
