@@ -29,6 +29,7 @@ app_license = "MIT"
 # include js in doctype views
 doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
 "Purchase Receipt" : "public/js/purchase_receipt.js",
+"Purchase Invoice" : "public/js/purchase_invoice.js",
 "Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js",
 "Stock Entry" : "public/js/stock_entry.js", "Stock Reconciliation" : "public/js/stock_reconciliation.js",
 "Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
@@ -286,7 +287,10 @@ fixtures = [{
             "Installation Note Item-custom_model_id", "Stock Reconciliation Item-custom_brand",
             "Stock Entry Detail-custom_brand", "Pick List Item-custom_brand", "Installation Note Item-custom_brand",
             "Stock Reconciliation Item-custom_section_break_m0cwa", "Stock Reconciliation Item-custom_description",
-            "Sales Order Item-custom_model_id"
+            "Sales Order Item-custom_model_id", "Purchase Receipt Item-custom_from_model_id", "Purchase Order Item-custom_from_model_id",
+            "Sales Invoice Item-custom_from_model_id", "Sales Order Item-custom_from_model_id", "Delivery Note Item-custom_from_model_id",
+            "Pick List Item-custom_from_model_id", "Stock Entry Detail-custom_from_model_id", "Stock Reconciliation Item-custom_from_model_id",
+            "Installation Note Item-custom_from_model_id"
             )]
     ]
     },
