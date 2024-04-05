@@ -280,12 +280,13 @@ fixtures = [{
             "Purchase Invoice Item-custom_has_model_id", "Purchase Invoice Item-custom_model_id",
             "Purchase Order Item-custom_has_serial_no", "Purchase Receipt Item-custom_has_serial_no",
             "Serial No-custom_model_id", "Stock Entry Detail-custom_model_id", "Stock Reconciliation Item-custom_model_id",
-            "Purchase Invoice Item-custom_has_serial_no", "Sales Order Item-custom_model_item", "Delivery Note Item-custom_model_id",
+            "Purchase Invoice Item-custom_has_serial_no", "Delivery Note Item-custom_model_id",
             "Sales Invoice Item-custom_model_id", "Pick List Item-custom_model_id", "Item-custom_item_tax_percentage",
             "Material Request Item-custom_model_id", "Item-custom_item_default", "Serial No-custom_update_model_id",
             "Installation Note Item-custom_model_id", "Stock Reconciliation Item-custom_brand",
             "Stock Entry Detail-custom_brand", "Pick List Item-custom_brand", "Installation Note Item-custom_brand",
-            "Stock Reconciliation Item-custom_section_break_m0cwa", "Stock Reconciliation Item-custom_description"
+            "Stock Reconciliation Item-custom_section_break_m0cwa", "Stock Reconciliation Item-custom_description",
+            "Sales Order Item-custom_model_id"
             )]
     ]
     },
