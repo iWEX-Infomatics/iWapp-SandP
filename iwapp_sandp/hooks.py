@@ -27,7 +27,7 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Purchase Order" : "public/js/purchase_order.js", 
+doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Purchase Receipt" : "public/js/purchase_receipt.js",
 "Purchase Invoice" : "public/js/purchase_invoice.js",
 "Customer" : "public/js/customer.js", "Supplier" : "public/js/supplier.js",
@@ -35,7 +35,8 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
 "Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js",
-"Installation Note" : "public/js/installation_note.js"
+"Installation Note" : "public/js/installation_note.js",
+"Employee Checkin" : "public/js/employee_checkin.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js",
@@ -290,7 +291,7 @@ fixtures = [{
             "Sales Order Item-custom_model_id", "Purchase Receipt Item-custom_from_model_id", "Purchase Order Item-custom_from_model_id",
             "Sales Invoice Item-custom_from_model_id", "Sales Order Item-custom_from_model_id", "Delivery Note Item-custom_from_model_id",
             "Pick List Item-custom_from_model_id", "Stock Entry Detail-custom_from_model_id", "Stock Reconciliation Item-custom_from_model_id",
-            "Installation Note Item-custom_from_model_id"
+            "Installation Note Item-custom_from_model_id", "Employee Checkin-custom_date"
             )]
     ]
     },
