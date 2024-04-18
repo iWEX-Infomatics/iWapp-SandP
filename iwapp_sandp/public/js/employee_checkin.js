@@ -1,6 +1,5 @@
 frappe.ui.form.on('Employee Checkin', {
     time: function (frm) {
-        console.log("hiiiiiiiiiiii")
         if (frm.doc.time) {
             var datetimeString = frm.doc.time;
             // Split the datetime string by space
