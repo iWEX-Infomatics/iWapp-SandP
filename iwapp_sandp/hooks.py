@@ -183,7 +183,11 @@ doc_events = {
     "Installation Note": {
         "validate": "iwapp_sandp.events.installation_note.validate",
         "before_save": "iwapp_sandp.events.installation_note.before_save"
-    }   
+    },
+    "Quotation": {
+        "validate": "iwapp_sandp.events.quotation.validate",
+        # "before_save": "iwapp_sandp.events.quotation.before_save"
+    }    
 }
 
 # Scheduled Tasks
@@ -320,7 +324,8 @@ fixtures = [{
             "Issue-custom_project_name", "Issue-custom_project_site_details", "Issue-custom_site_address", "Issue-custom_site_address_html",
             "Journal Entry Account-custom_customer", "Journal Entry Account-custom_project_name", "Journal Entry Account-custom_project_site_details",
             "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
-            "Journal Entry Account-custom_column_break_497ed"
+            "Journal Entry Account-custom_column_break_497ed", "Sales Invoice Item-custom_has_model_id", "Quotation Item-custom_model_id",
+            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id"
             )]
     ]
     },
@@ -331,6 +336,7 @@ fixtures = [{
                 "Customer",
                 "Delivery Note Item",
                 "Purchase Receipt Item",
+                "Purchase Invoice Item",
                 "Purchase Order Item",
                 "Sales Invoice Item",
                 "Sales Order Item",

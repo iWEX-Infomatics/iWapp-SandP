@@ -21,8 +21,8 @@ def before_save(doc, method):
                         brand = brand_and_spec[0] if brand_and_spec[0] else ""
                         specification = brand_and_spec[1] if brand_and_spec[1] else ""
                         if specification:
-                            item.description = f"{item.item_code} - {brand} {item.custom_model_id} - {specification}"
+                            item.description = f"{item.item_name}, {brand} - {item.custom_model_id}, {specification}"
                         else:
-                            item.description = f"{item.item_code} - {brand} {item.custom_model_id}"
+                            item.description = f"{item.item_name}, {brand} - {item.custom_model_id}"
                         item.brand = brand
                         item.custom_from_model_id = 1
