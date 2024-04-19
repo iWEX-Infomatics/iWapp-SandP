@@ -36,7 +36,12 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
 "Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js",
 "Installation Note" : "public/js/installation_note.js", "Employee Checkin" : "public/js/employee_checkin.js",
-"Opportunity" : "public/js/opportunity.js"
+"Opportunity" : "public/js/opportunity.js", "Task" : "public/js/task.js",
+"Quotation" : "public/js/quotation.js",
+"Payment Entry" : "public/js/payment_entry.js",
+"Blanket Order" : "public/js/blanket_order.js",
+"Issue" : "public/js/issue.js",
+"Journal Entry" : "public/js/journal_entry.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js",
@@ -292,7 +297,30 @@ fixtures = [{
             "Sales Invoice Item-custom_from_model_id", "Sales Order Item-custom_from_model_id", "Delivery Note Item-custom_from_model_id",
             "Pick List Item-custom_from_model_id", "Stock Entry Detail-custom_from_model_id", "Stock Reconciliation Item-custom_from_model_id",
             "Installation Note Item-custom_from_model_id", "Employee Checkin-custom_date", "Opportunity-custom_project_site_details",
-            "Opportunity-custom_site_address", "Opportunity-custom_site_address_html"
+            "Opportunity-custom_site_address", "Opportunity-custom_site_address_html", "Task-custom_project_name",
+            "Task-custom_customer", "Task-custom_project_site_details", "Task-custom_site_address", "Task-custom_site_address_html",
+            "Quotation-custom_project_site_details", "Quotation-custom_site_address", "Quotation-custom_site_address_html",
+            "Sales Order-custom_project_site_details", "Sales Order-custom_site_address", "Sales Order-custom_site_address_html",
+            "Sales Order-custom_project_name", "Material Request Item-custom_project_name", "Material Request-custom_project_site_details",
+            "Material Request-custom_site_address_html", "Material Request-custom_site_address", "Stock Entry Detail-custom_project_name",
+            "Stock Entry-custom_project_site_details", "Stock Entry-custom_site_address", "Stock Entry-custom_site_address_html",
+            "Stock Entry-custom_project_name", "Stock Entry-custom_customer", "Stock Entry-custom_column_break_htdrj",
+            "Purchase Order-custom_project_name", "Purchase Order-custom_project_site_details", "Purchase Order-custom_site_address",
+            "Purchase Order-custom_site_address_html", "Purchase Receipt Item-custom_project_name", "Purchase Receipt-custom_customer",
+            "Purchase Receipt-custom_project_name", "Purchase Receipt-custom_project_site_details", "Purchase Receipt-custom_site_address",
+            "Purchase Receipt-custom_site_address_html", "Purchase Invoice Item-custom_project_name", "Purchase Invoice-custom_customer",
+            "Purchase Invoice-custom_project_name", "Purchase Invoice-custom_project_site_details", "Purchase Invoice-custom_site_address",
+            "Purchase Invoice-custom_site_address_html", "Delivery Note Item-custom_project_name", "Delivery Note-custom_project_name",
+            "Delivery Note-custom_site_address", "Delivery Note-custom_site_address_html", "Delivery Note-custom_project_site_details",
+            "Installation Note-custom_project_site_details", "Installation Note-custom_site_address", "Installation Note-custom_site_address_html",
+            "Sales Invoice Item-custom_project_name", "Sales Invoice-custom_project_name", "Sales Invoice-custom_project_site_details",
+            "Sales Invoice-custom_site_address", "Sales Invoice-custom_site_address_html", "Payment Entry-custom_project_name",
+            "Payment Entry-custom_project_site_details", "Payment Entry-custom_site_address", "Payment Entry-custom_site_address_html",
+            "Blanket Order-custom_project_site_details", "Blanket Order-custom_site_address", "Blanket Order-custom_site_address_html",
+            "Issue-custom_project_name", "Issue-custom_project_site_details", "Issue-custom_site_address", "Issue-custom_site_address_html",
+            "Journal Entry Account-custom_customer", "Journal Entry Account-custom_project_name", "Journal Entry Account-custom_project_site_details",
+            "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
+            "Journal Entry Account-custom_column_break_497ed"
             )]
     ]
     },
@@ -306,6 +334,7 @@ fixtures = [{
                 "Purchase Order Item",
                 "Sales Invoice Item",
                 "Sales Order Item",
+                "Project"
             )]
         ]
     }
