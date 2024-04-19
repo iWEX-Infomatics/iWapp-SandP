@@ -328,7 +328,7 @@ fixtures = [{
             "Journal Entry Account-custom_customer", "Journal Entry Account-custom_project_name", "Journal Entry Account-custom_project_site_details",
             "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
             "Journal Entry Account-custom_column_break_497ed", "Sales Invoice Item-custom_has_model_id", "Quotation Item-custom_model_id",
-            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id"
+            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer"
             )]
     ]
     },
