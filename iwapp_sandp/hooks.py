@@ -187,7 +187,10 @@ doc_events = {
     "Quotation": {
         "validate": "iwapp_sandp.events.quotation.validate",
         # "before_save": "iwapp_sandp.events.quotation.before_save"
-    }    
+    },
+     "Expense Claim": {
+        "after_insert": "iwapp_sandp.events.expense_claim.after_insert",
+    }     
 }
 
 # Scheduled Tasks
