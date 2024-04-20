@@ -36,13 +36,10 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
 "Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js",
 "Installation Note" : "public/js/installation_note.js", "Employee Checkin" : "public/js/employee_checkin.js",
-"Task" : "public/js/task.js",
-"Opportunity" : "public/js/opportunity.js",
-"Quotation" : "public/js/quotation.js",
-"Payment Entry" : "public/js/payment_entry.js",
-"Blanket Order" : "public/js/blanket_order.js",
-"Issue" : "public/js/issue.js",
-"Journal Entry" : "public/js/journal_entry.js"
+"Task" : "public/js/task.js", "Opportunity" : "public/js/opportunity.js",
+"Quotation" : "public/js/quotation.js", "Payment Entry" : "public/js/payment_entry.js",
+"Blanket Order" : "public/js/blanket_order.js", "Issue" : "public/js/issue.js",
+"Journal Entry" : "public/js/journal_entry.js", "Address" : "public/js/address.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js",
@@ -329,7 +326,7 @@ fixtures = [{
             "Journal Entry Account-custom_customer", "Journal Entry Account-custom_project_name", "Journal Entry Account-custom_project_site_details",
             "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
             "Journal Entry Account-custom_column_break_497ed", "Sales Invoice Item-custom_has_model_id", "Quotation Item-custom_model_id",
-            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer"
+            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer", "Address-custom_location"
             )]
     ]
     },
