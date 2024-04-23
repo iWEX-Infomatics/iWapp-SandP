@@ -7,6 +7,13 @@ frappe.ui.form.on('Issue', {
         set_site_address_filter(frm)
     },
     refresh: function (frm) {
+        if(!frm.doc.__islocal){
+            frm.add_custom_button(__('Task'), function () {
+                frappe.route_options = { "issue": frm.doc.name, 'project' :frm.doc.project,
+            'custom_site_address' : frm.doc.custom_site_address}
+                frappe.new_doc('Task');
+            }, 'Create')
+            }
         dislpay_site_address(frm)
         set_site_address_filter(frm)
     },

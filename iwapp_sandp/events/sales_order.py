@@ -15,3 +15,13 @@ def validate(doc, method):
                             item.description = f"{item.item_name}, {brand} - {item.custom_model_id}"
                         item.brand = brand
                         item.custom_from_model_id = 1
+# @frappe.whitelist()
+# def get_items_has_project_type(project_type):
+#     item = frappe.db.get_list('Project Child',
+#         filters={
+#             'project_type': ["in", project_type]
+#         },
+#         pluck = "parent"
+#     )
+#     if item:
+#         return item

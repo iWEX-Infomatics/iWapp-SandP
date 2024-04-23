@@ -19,7 +19,29 @@ frappe.ui.form.on("Sales Order", {
                 }
             }
         }
-    }
+    },
+    // for selecting project type in SO to fetch items to table from Item Master
+    // custom_project_type:function(frm){
+    //     frm.clear_table("items")
+    //     if (frm.doc.custom_project_type){
+    //         frappe.call({
+    //             method:"iwapp_sandp.events.sales_order.get_items_has_project_type",
+    //             args:{
+    //                 project_type:frm.doc.custom_project_type
+    //             },
+    //             callback:function(r){
+    //                 if(r.message){
+    //                     $.each(r.message, function (idx, item){
+    //                         var child = frm.add_child("items");
+    //                         child.item_code = item
+    //                         frm.refresh_fields("items")
+    //                     })
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     frm.refresh_fields("items")
+    // }
 })
 frappe.ui.form.on('Sales Order Item', {
     custom_model_id: function (frm, cdt, cdn) {

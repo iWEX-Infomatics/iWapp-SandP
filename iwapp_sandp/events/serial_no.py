@@ -14,6 +14,7 @@ def before_save(doc, method):
                         # Convert each element in list seril_no_list to lowercase and check if serial_no is in it
                         if serial_no_lower in [item.lower() for item in seril_no_list]:
                             if s_no.custom_model_id:
+                                doc.description = s_no.description
                                 doc.custom_model_id = s_no.custom_model_id
                                 doc.brand = frappe.db.get_value("Item Model ID", s_no.custom_model_id, "brand")
 

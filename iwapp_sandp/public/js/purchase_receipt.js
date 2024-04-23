@@ -1,4 +1,11 @@
 frappe.ui.form.on('Purchase Receipt', {
+    setup: function (frm) {
+        frm.set_indicator_formatter("item_code", (doc) => {
+            if (doc.custom_has_model_id == 1) {
+                return "purple";
+            }
+        });
+    },
     custom_site_address: function (frm) {
         dislpay_site_address(frm)
     },
