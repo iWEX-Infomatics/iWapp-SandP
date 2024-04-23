@@ -2,15 +2,17 @@ import frappe
 
 
 def before_save(doc, method):
-    default_doc = frappe.get_doc("Custom Default Values")
-    if len(default_doc.default_values) > 0:
-        doc.accounts = []
-        for i in default_doc.default_values:
-            if i.currency == doc.default_currency and i.tax_category == doc.tax_category:
-                doc.append("accounts", {
-                    "company":i.company,
-                    "account":i.customer_account
-                })
+    if doc.custom_default_values == 0:
+        default_doc = frappe.get_doc("Custom Default Values")
+        if len(default_doc.default_values) > 0:
+            doc.accounts = []
+            for i in default_doc.default_values:
+                if i.currency == doc.default_currency and i.tax_category == doc.tax_category:
+                    doc.append("accounts", {
+                        "company":i.company,
+                        "account":i.customer_account
+                    })
+                    doc.custom_default_values = 1
 
 @frappe.whitelist()
 def update_account():

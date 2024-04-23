@@ -149,6 +149,9 @@ doc_events = {
      "Customer": {
         "before_save": "iwapp_sandp.events.customer.before_save"
 	},
+    "Supplier": {
+        "before_save": "iwapp_sandp.events.supplier.before_save"
+	},
     "Stock Entry": {
         "validate": "iwapp_sandp.events.stock_entry.validate",
         "before_save": "iwapp_sandp.events.stock_entry.before_save"
@@ -326,7 +329,8 @@ fixtures = [{
             "Journal Entry Account-custom_customer", "Journal Entry Account-custom_project_name", "Journal Entry Account-custom_project_site_details",
             "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
             "Journal Entry Account-custom_column_break_497ed", "Sales Invoice Item-custom_has_model_id", "Quotation Item-custom_model_id",
-            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer", "Address-custom_location"
+            "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer", "Address-custom_location",
+            "Customer-custom_default_values", "Supplier-custom_default_values"
             )]
     ]
     },

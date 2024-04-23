@@ -15,7 +15,7 @@ def before_save(doc, method):
                 "buying_cost_center": i.get("default_buying_cost_center"),
                 "selling_cost_center": i.get("default_selling_cost_center")
             })
-        doc.custom_item_default = 1
+            doc.custom_item_default = 1
 
 @frappe.whitelist()
 def get_tax_template(tax):
