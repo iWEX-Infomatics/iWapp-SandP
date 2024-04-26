@@ -7,6 +7,103 @@ frappe.ui.form.on("Sales Order", {
         set_site_address_filter(frm)
     },
     refresh: function (frm) {
+        // if(frm.doc.docstatus === 1 && frm.doc.status !== 'Closed'
+		// 	&& flt(frm.doc.per_delivered, 6) < 100 && flt(frm.doc.per_billed, 6) < 100) {
+		// 	frm.add_custom_button(__('Update Item'), () => {
+		// 		erpnext.utils.update_child_items({
+		// 			frm: frm,
+		// 			child_docname: "items",
+		// 			child_doctype: "Order Item",
+        //             child_table_field: "custom_model_id",
+		// 			cannot_add_row: false,
+		// 		})
+		// 	});
+		// }
+        if(frm.doc.docstatus === 1 && frm.doc.status !== 'Closed') {
+			frm.add_custom_button(__('Update Model ID'), () => {
+                let data = [];
+                let d = new frappe.ui.Dialog({
+                    title: 'Update Model ID',
+                    fields: [
+                        {
+                            fieldname: 'items',
+                            fieldtype: 'Table',
+                            cannot_add_rows: true,
+                            is_editable_grid: true,
+                            data: [],
+                            fields: [
+                                {
+                                    label: 'No.',
+                                    fieldname: 'idx',
+                                    fieldtype: 'Int',
+                                    read_only: 1,
+                                    in_list_view: true,
+                                    columns:.1
+                                },
+                                {
+                                    label: 'Item Code',
+                                    fieldname: 'item_code',
+                                    fieldtype: 'Link',
+                                    options: 'Item',
+                                    read_only: 1,
+                                    in_list_view: true,
+                                    columns:2,
+                                },
+                                {
+                                    label: 'Model ID',
+                                    fieldname: 'model_id',
+                                    fieldtype: 'Link',
+                                    options: 'Item Model ID',
+                                    in_list_view: true,
+                                    columns:2,
+                                    // get_query: () => {
+                                    //     console.log(d.get_value("item_code"))
+                                    //     var item_code = d.get_value("item_code")
+                                    //     return {
+                                    //       filters: {
+                                    //         "item": item_code
+                                    //       }
+                                    //     }
+                                    // }
+                                }
+                            ]
+                        }
+                    ],
+                    size: 'small', // small, large, extra-large
+                    primary_action_label: 'Add',
+                    primary_action(values) {
+                        $.each(values.items, function(idx, val){
+                            $.each(frm.doc.items, function(idx, item){
+                            if(item.item_code == val.item_code){
+                                frappe.model.set_value(item.doctype, item.name, "custom_model_id", val.model_id)
+                                frm.refresh_fields("items");
+                                // frm.save();
+                                // frm.refresh();
+                            }
+                            })
+                        })
+                        d.hide();
+                        // frm.save();
+                        // frm.reload_doc();
+                    }
+                });
+
+                d.show();
+                d.$wrapper.find('.modal-content').css("width", "700px");
+                $.each(frm.doc.items, function (k, item) {
+                    let sl_no_dict = {
+                        'item_code': item.item_code,
+                        'model_id': item.custom_model_id,
+                    };
+                    d.fields_dict.items.df.data.push(sl_no_dict);
+                    d.fields_dict.items.grid.refresh();
+                    d.fields_dict.items.$wrapper.find('.grid-add-row').remove();
+                    d.fields_dict.items.$wrapper.find('.grid-row-check').remove();
+                    d.fields_dict.items.$wrapper.find('.btn-open-row').remove();
+
+                })
+			});
+		}
         dislpay_site_address(frm)
         set_site_address_filter(frm)
         frm.fields_dict['items'].grid.get_field('custom_model_id').get_query = function (frm, cdt, cdn) {

@@ -3,7 +3,26 @@ import frappe
 def validate(doc, method):
     if doc.items:
         for i in doc.items:
-            if i.serial_no:
+            if i.custom_model_id:
+                serial_no_list = frappe.db.get_list('Serial No',
+                    filters={
+                        'status': 'Active',
+                        'custom_model_id': i.custom_model_id
+                    },
+                    order_by='purchase_date asc',
+                    pluck = "name"
+                )
+                # Limiting the length of the list to 2
+                serial_no_list = serial_no_list[:int(i.qty)]
+                serial_no_string = ",".join(serial_no_list)
+                i.serial_no = serial_no_string.replace(',', '\n')
+                if(len(serial_no_list) < i.qty):
+                    needed_item = i.qty - len(serial_no_list)
+                    frappe.throw(
+                    title='Insufficient Stock',
+                    msg=f"{needed_item} units of <b><u>Item {i.item_code}</u></b> against <b><u>Model ID {i.custom_model_id}</u></b> needed in <b><u>Warehouse {i.warehouse}</u></b> to complete this transaction.",
+                )
+            if i.serial_no and not i.custom_model_id:
                 data_list = [item.strip() for item in i.serial_no.replace(',', '\n').split('\n') if item]
                 if data_list:
                     for serial_no in data_list:
