@@ -7,20 +7,8 @@ frappe.ui.form.on("Sales Order", {
         set_site_address_filter(frm)
     },
     refresh: function (frm) {
-        // if(frm.doc.docstatus === 1 && frm.doc.status !== 'Closed'
-		// 	&& flt(frm.doc.per_delivered, 6) < 100 && flt(frm.doc.per_billed, 6) < 100) {
-		// 	frm.add_custom_button(__('Update Item'), () => {
-		// 		erpnext.utils.update_child_items({
-		// 			frm: frm,
-		// 			child_docname: "items",
-		// 			child_doctype: "Order Item",
-        //             child_table_field: "custom_model_id",
-		// 			cannot_add_row: false,
-		// 		})
-		// 	});
-		// }
-        if(frm.doc.docstatus === 1 && frm.doc.status !== 'Closed') {
-			frm.add_custom_button(__('Update Model ID'), () => {
+        if (frm.doc.docstatus === 1 && frm.doc.status !== 'Closed') {
+            frm.add_custom_button(__('Update Model ID'), () => {
                 let data = [];
                 let d = new frappe.ui.Dialog({
                     title: 'Update Model ID',
@@ -38,7 +26,7 @@ frappe.ui.form.on("Sales Order", {
                                     fieldtype: 'Int',
                                     read_only: 1,
                                     in_list_view: true,
-                                    columns:.1
+                                    columns: .1
                                 },
                                 {
                                     label: 'Item Code',
@@ -47,7 +35,7 @@ frappe.ui.form.on("Sales Order", {
                                     options: 'Item',
                                     read_only: 1,
                                     in_list_view: true,
-                                    columns:2,
+                                    columns: 2
                                 },
                                 {
                                     label: 'Model ID',
@@ -55,16 +43,22 @@ frappe.ui.form.on("Sales Order", {
                                     fieldtype: 'Link',
                                     options: 'Item Model ID',
                                     in_list_view: true,
-                                    columns:2,
-                                    // get_query: () => {
-                                    //     console.log(d.get_value("item_code"))
-                                    //     var item_code = d.get_value("item_code")
-                                    //     return {
-                                    //       filters: {
-                                    //         "item": item_code
-                                    //       }
-                                    //     }
-                                    // }
+                                    columns: 2,
+                                    get_query: (doc) => {
+                                        let filter_model_id = ""
+                                        // taking doc idx
+                                        // if it is 1st row it will be 1
+                                        const idxs = doc["idx"] - 1;
+                                        // get a list of dict and take the dict accordingly to idxs
+                                        let dialog_data = d.fields_dict.items.df.data[idxs];
+                                        filter_model_id = dialog_data.item_code
+                                        return {
+                                            filters: {
+                                                "item": filter_model_id
+                                            }
+                                        };
+                                    }
+
                                 }
                             ]
                         }
@@ -72,14 +66,14 @@ frappe.ui.form.on("Sales Order", {
                     size: 'small', // small, large, extra-large
                     primary_action_label: 'Add',
                     primary_action(values) {
-                        $.each(values.items, function(idx, val){
-                            $.each(frm.doc.items, function(idx, item){
-                            if(item.item_code == val.item_code){
-                                frappe.model.set_value(item.doctype, item.name, "custom_model_id", val.model_id)
-                                frm.refresh_fields("items");
-                                // frm.save();
-                                // frm.refresh();
-                            }
+                        $.each(values.items, function (idx, val) {
+                            $.each(frm.doc.items, function (idx, item) {
+                                if (item.item_code == val.item_code) {
+                                    frappe.model.set_value(item.doctype, item.name, "custom_model_id", val.model_id)
+                                    frm.refresh_fields("items");
+                                    // frm.save();
+                                    // frm.refresh();
+                                }
                             })
                         })
                         d.hide();
@@ -102,8 +96,8 @@ frappe.ui.form.on("Sales Order", {
                     d.fields_dict.items.$wrapper.find('.btn-open-row').remove();
 
                 })
-			});
-		}
+            });
+        }
         dislpay_site_address(frm)
         set_site_address_filter(frm)
         frm.fields_dict['items'].grid.get_field('custom_model_id').get_query = function (frm, cdt, cdn) {
