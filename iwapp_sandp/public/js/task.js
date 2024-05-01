@@ -10,7 +10,7 @@ frappe.ui.form.on('Task', {
     refresh: function (frm) {
         dislpay_site_address(frm)
         set_site_address_filter(frm)
-    },
+    }
 });
 
 var set_site_address_filter = function (frm) {

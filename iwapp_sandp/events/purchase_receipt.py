@@ -16,6 +16,10 @@ def validate(doc, method):
 def before_save(doc, method):
     if doc.items:
         for item in doc.items:
+            if item.custom_model_id:
+                # To set custom_has_model_id = 1 when creating model id from PR
+                item.custom_has_model_id = 1
+                frappe.db.set_value("Item", item.item_code, "custom_has_model_id", 1)
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:
                     brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])
