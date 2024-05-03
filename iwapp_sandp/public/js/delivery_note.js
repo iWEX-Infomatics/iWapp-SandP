@@ -1,4 +1,11 @@
 frappe.ui.form.on("Delivery Note", {
+    setup: function (frm) {
+        frm.set_indicator_formatter("uom", (doc) => {
+            if (doc.custom_has_model_id == 1) {
+                return "purple";
+            }
+        });
+    },
     custom_site_address: function (frm) {
         dislpay_site_address(frm)
     },
@@ -18,6 +25,15 @@ frappe.ui.form.on("Delivery Note", {
                 }
             };
         };
+        // frm.fields_dict['items'].grid.get_field('batch_no').get_query = function (doc, cdt, cdn) {
+        //     var child = locals[cdt][cdn];
+        //     return {
+        //         filters: {
+        //             'item': child.item_code,
+        //             'custom_model_id':child.custom_model_id
+        //         }
+        //     };
+        // };
         if (frm.doc.docstatus != 1) {
             frm.add_custom_button(__('Fetch Model Id'), function () {
                 if (frm.doc.items) {

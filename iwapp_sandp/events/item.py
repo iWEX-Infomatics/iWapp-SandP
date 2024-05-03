@@ -1,5 +1,12 @@
 import frappe
 
+# def after_insert(doc, method):
+#     if doc.custom_has_model_id == 1:
+#         doc.has_batch_no = 1
+#         doc.create_new_batch = 1
+#         first_three_letters = doc.item_code[:3].upper()
+#         doc.batch_number_series = f"{first_three_letters}.YY.MM.DD.####"
+#         doc.save()
 def before_save(doc, method):
     if doc.custom_item_default == 0:
         if doc.item_defaults:

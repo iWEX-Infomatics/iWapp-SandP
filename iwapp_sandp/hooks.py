@@ -179,7 +179,8 @@ doc_events = {
         "before_save": "iwapp_sandp.events.serial_no.before_save"
     },
      "Item": {
-        "before_save": "iwapp_sandp.events.item.before_save"
+        "before_save": "iwapp_sandp.events.item.before_save",
+        # "after_insert": "iwapp_sandp.events.item.after_insert"
     },
     "Installation Note": {
         "validate": "iwapp_sandp.events.installation_note.validate",
@@ -330,7 +331,10 @@ fixtures = [{
             "Journal Entry Account-custom_site_address", "Journal Entry Account-custom_site_address_html", "Journal Entry Account-custom_display_site_address",
             "Journal Entry Account-custom_column_break_497ed", "Sales Invoice Item-custom_has_model_id", "Quotation Item-custom_model_id",
             "Quotation Item-custom_has_model_id", "Quotation Item-custom_from_model_id", "Purchase Order-custom_customer", "Address-custom_location",
-            "Customer-custom_default_values", "Supplier-custom_default_values"
+            "Customer-custom_default_values", "Supplier-custom_default_values", "Delivery Note Item-custom_has_batch_no",
+            "Sales Order Item-custom_has_batch_no", "Batch-custom_brand", "Batch-custom_model_id", "Purchase Receipt Item-custom_has_batch_no",
+            "Delivery Note Item-custom_has_model_id", "Delivery Note Item-custom_has_serial_no", "Sales Order Item-custom_has_serial_no",
+            "Sales Order Item-custom_has_model_id"
             )]
     ]
     },

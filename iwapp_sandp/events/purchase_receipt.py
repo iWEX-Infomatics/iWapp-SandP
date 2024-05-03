@@ -19,7 +19,21 @@ def before_save(doc, method):
             if item.custom_model_id:
                 # To set custom_has_model_id = 1 when creating model id from PR
                 item.custom_has_model_id = 1
-                frappe.db.set_value("Item", item.item_code, "custom_has_model_id", 1)
+                item.custom_has_batch_no = 1
+                frappe.db.set_value("Item", item.item_code, {"custom_has_model_id" : 1, "has_batch_no" : 1}, update_modified = False)
+                # get_list items having BATCH No SERIES BLANK
+                model_id_items = frappe.db.get_list("Item",
+                    filters = {
+                        "name":["in", item.item_code],
+                        "batch_number_series": ""},
+                        pluck = "name"
+                )
+                if model_id_items:
+                    # Take the first 3 letters from itemcode and with yy-mm-dd and sb set to serial_no_series in ITEM
+                    first_three_letters = item.item_code[:3].upper()
+                    batch_no_series = f"{first_three_letters}.YY.MM.DD.####"
+                    frappe.db.set_value("Item", item.item_code, {"custom_has_model_id" : 1, "has_batch_no" : 1, "create_new_batch" :1,
+                    "batch_number_series" : batch_no_series})
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:
                     brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])
@@ -32,8 +46,6 @@ def before_save(doc, method):
                             item.description = f"{item.item_name}, {brand} - {item.custom_model_id}"
                         item.brand = brand
                         item.custom_from_model_id = 1
-            if item.custom_model_id and item.serial_no:
-                frappe.db.set_value("Item", item.item_code, "has_serial_no", 1)
 
 def on_submit(doc, method):
     if doc.items:
@@ -43,4 +55,7 @@ def on_submit(doc, method):
                 # Replace commas with newline characters and split the string into a list and Remove spaces from each element in the list
                 data_list = [i.strip() for i in item.serial_no.replace(',', '\n').split('\n') if i]
                 for i in data_list:
-                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "description" : item.description, "brand":item.brand, "custom_update_model_id":1})
+                    frappe.db.set_value("Serial No", i, {"custom_model_id" : item.custom_model_id, "description" : item.description,
+                        "brand":item.brand, "custom_update_model_id":1})
+            if item.custom_has_batch_no == 1 and item.custom_model_id:
+                frappe.db.set_value("Batch", item.batch_no, {"custom_model_id" : item.custom_model_id, "description" : item.description, "custom_brand":item.brand})
