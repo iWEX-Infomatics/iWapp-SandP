@@ -335,7 +335,7 @@ fixtures = [{
             "Customer-custom_default_values", "Supplier-custom_default_values", "Delivery Note Item-custom_has_batch_no",
             "Sales Order Item-custom_has_batch_no", "Batch-custom_brand", "Batch-custom_model_id", "Purchase Receipt Item-custom_has_batch_no",
             "Delivery Note Item-custom_has_model_id", "Delivery Note Item-custom_has_serial_no", "Sales Order Item-custom_has_serial_no",
-            "Sales Order Item-custom_has_model_id"
+            "Sales Order Item-custom_has_model_id", "Delivery Note Item-custom_model_wise_serial"
             )]
     ]
     },
