@@ -26,7 +26,6 @@ def before_save(doc, method):
                         "name":item.item_code,
                         "batch_number_series": ""}, "name"
                 )
-                print("\n\n\nbatch", model_id_items)
                 if model_id_items:
                     # Take the first 3 letters from itemcode and with yy-mm-dd and sb set to serial_no_series in ITEM
                     first_three_letters = item.item_code[:3].upper()
@@ -42,7 +41,6 @@ def before_save(doc, method):
                 model_id_items = frappe.db.get_value("Item",{
                         "name":item.item_code,
                         "serial_no_series": ""},"name")
-                print("\n\n\nserial", model_id_items)
                 if model_id_items:
                     # Take the first 3 letters from itemcode and with yy-mm-dd and sb set to serial_no_series in ITEM
                     first_three_letters = item.item_code[:3].upper()

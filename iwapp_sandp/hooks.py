@@ -158,7 +158,7 @@ doc_events = {
 	},
     "Delivery Note": {
         "validate": "iwapp_sandp.events.delivery_note.validate",
-        "after_insert": "iwapp_sandp.events.delivery_note.after_insert",
+        # "after_insert": "iwapp_sandp.events.delivery_note.after_insert",
         "before_save": "iwapp_sandp.events.delivery_note.before_save"
     },
     "Sales Invoice": {
