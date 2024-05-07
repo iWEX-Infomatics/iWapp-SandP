@@ -16,32 +16,26 @@ def validate(doc, method):
 def before_save(doc, method):
     if doc.items:
         for item in doc.items:
-            if item.custom_model_id and item.uom != "Nos":
+            if item.custom_model_id and item.stock_uom != "Nos":
                 # To set custom_has_model_id = 1 when creating model id from PR
                 item.custom_has_model_id = 1
                 item.custom_has_batch_no = 1
                 frappe.db.set_value("Item", item.item_code, {"custom_has_model_id" : 1, "has_batch_no" : 1}, update_modified = False)
                 # get_list items having BATCH No SERIES BLANK
-                model_id_items = frappe.db.get_value("Item", {
-                        "name":item.item_code,
-                        "batch_number_series": ""}, "name"
-                )
-                if model_id_items:
+                model_id_items = frappe.db.get_value("Item", item.item_code, "create_new_batch")
+                if model_id_items == 0:
                     # Take the first 3 letters from itemcode and with yy-mm-dd and sb set to serial_no_series in ITEM
                     first_three_letters = item.item_code[:3].upper()
                     batch_no_series = f"{first_three_letters}.YY.MM.DD.####"
                     frappe.db.set_value("Item", item.item_code, {"custom_has_model_id" : 1, "has_batch_no" : 1, "create_new_batch" :1,
                     "batch_number_series" : batch_no_series})
-            if item.custom_model_id and item.uom == "Nos":
+            if item.custom_model_id and item.stock_uom == "Nos":
                  # To set custom_has_model_id = 1 when creating model id from PR
                 item.custom_has_model_id = 1
                 item.custom_has_serial_no = 1
                 frappe.db.set_value("Item", item.item_code, {"custom_has_model_id" : 1, "has_serial_no" : 1}, update_modified = False)
-                # get_list items having BATCH No SERIES BLANK
-                model_id_items = frappe.db.get_value("Item",{
-                        "name":item.item_code,
-                        "serial_no_series": ""},"name")
-                if model_id_items:
+                model_id_items = frappe.db.get_value("Item", item.item_code, "serial_no_series")
+                if model_id_items == None or model_id_items == "":
                     # Take the first 3 letters from itemcode and with yy-mm-dd and sb set to serial_no_series in ITEM
                     first_three_letters = item.item_code[:3].upper()
                     serial_no_series = f"{first_three_letters}.YY.MM.DD.####"

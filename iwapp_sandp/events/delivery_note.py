@@ -25,7 +25,12 @@ def validate(doc, method):
                                 frappe.throw(
                                 title='Insufficient Stock',
                                 msg=f"{needed_item} units of <b><u>Item {i.item_code}</u></b> against <b><u>Model ID {i.custom_model_id}</u></b> needed in <b><u>Warehouse {i.warehouse}</u></b> to complete this transaction.",
-                            )
+                                )
+                        else:
+                            frappe.throw(
+                                title='Insufficient Stock',
+                                msg=f"Serial Nos Required for Serialized <b><u>Item {i.item_code}</u></b> against <b><u>Model ID {i.custom_model_id}</u></b>",
+                                )
                     else:
                         serial_no_list = frappe.db.get_list('Serial No',
                             filters={
