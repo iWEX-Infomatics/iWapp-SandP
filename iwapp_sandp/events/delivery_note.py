@@ -59,27 +59,19 @@ def validate(doc, method):
                                 title='Insufficient Stock',
                                 msg=f"{needed_item} units of <b><u>Item {i.item_code}</u></b> against <b><u>Model ID {i.custom_model_id}</u></b> needed in <b><u>Warehouse {i.warehouse}</u></b> to complete this transaction.",
                             )
-                if i.custom_has_batch_no == 1:
-                    batch_no_list = frappe.db.get_list('Batch',
-                        filters={
-                            'custom_model_id': i.custom_model_id,
-                        },
-                        order_by='manufacturing_date asc',
-                        pluck = "name"
-                    )
-                    if i.batch_no not in batch_no_list:
-                        frappe.throw(
-                        title='Error',
-                        msg=f"<b><u>Model ID {i.custom_model_id}</u></b> not belongs to <b><u>Batch No {i.batch_no}</u></b>"
-                    )
-                    # if batch_no_list:
-                    #     i.batch_no = batch_no_list[0]
-                    
-                    #     needed_item = i.qty - len(serial_no_list)
-                    #     frappe.throw(
-                    #     title='Insufficient Stock',
-                    #     msg=f"{needed_item} units of <b><u>Item {i.item_code}</u></b> against <b><u>Model ID {i.custom_model_id}</u></b> needed in <b><u>Warehouse {i.warehouse}</u></b> to complete this transaction.",
-                    # )
+                # if i.custom_has_batch_no == 1:
+                #     batch_no_list = frappe.db.get_list('Batch',
+                #         filters={
+                #             'custom_model_id': i.custom_model_id,
+                #         },
+                #         order_by='manufacturing_date asc',
+                #         pluck = "name"
+                #     )
+                #     if i.batch_no not in batch_no_list:
+                #         frappe.throw(
+                #         title='Error',
+                #         msg=f"<b><u>Model ID {i.custom_model_id}</u></b> not belongs to <b><u>Batch No {i.batch_no}</u></b>"
+                #     )
             if i.serial_no and not i.custom_model_id:
                 data_list = [item.strip() for item in i.serial_no.replace(',', '\n').split('\n') if item]
                 if data_list:
