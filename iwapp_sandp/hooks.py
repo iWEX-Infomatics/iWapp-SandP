@@ -146,6 +146,9 @@ doc_events = {
         "before_save": "iwapp_sandp.events.purchase_receipt.before_save",
         "on_submit": "iwapp_sandp.events.purchase_receipt.on_submit"
 	},
+    "Purchase Invoice": {
+        "validate": "iwapp_sandp.events.purchase_invoice.validate"
+	},
      "Customer": {
         "before_save": "iwapp_sandp.events.customer.before_save"
 	},

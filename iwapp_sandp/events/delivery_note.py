@@ -2,6 +2,14 @@ import frappe
 
 def validate(doc, method):
     if doc.items:
+        rows_with_missing_model_id = []
+        # here i: The current row number, item: The current item being processed in the loop.
+        for i, item in enumerate(doc.items, start=1):
+            if item.custom_has_model_id == 1 and item.custom_model_id is None:
+                rows_with_missing_model_id.append(f"row {i}")
+        if rows_with_missing_model_id:
+            rows_str = ", ".join(rows_with_missing_model_id)
+            frappe.throw(f"Mandatory fields required in Delivery Note Item for <b>Model ID</b> in <b>{rows_str}.</b>")
         for i in doc.items:
             if i.custom_model_id:
                 if i.custom_has_serial_no == 1:
@@ -84,6 +92,7 @@ def validate(doc, method):
 def before_save(doc, method):
     if doc.items:
         for item in doc.items:
+            # Initialize custom_from_model_id == 0 will set the brand, specification as in the below
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:
                     brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])

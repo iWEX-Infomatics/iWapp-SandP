@@ -1,7 +1,15 @@
 import frappe
-
+import datetime
 def validate(doc, method):
-     if doc.items:
+    if doc.items:
+        rows_with_missing_model_id = []
+        # here i: The current row number, item: The current item being processed in the loop.
+        for i, item in enumerate(doc.items, start=1):
+            if item.custom_has_model_id == 1 and item.custom_model_id is None:
+                rows_with_missing_model_id.append(f"row {i}")
+        if rows_with_missing_model_id:
+            rows_str = ", ".join(rows_with_missing_model_id)
+            frappe.throw(f"Mandatory fields required in Sales Order Item for <b>Model ID</b> in <b>{rows_str}.</b>")
         for item in doc.items:
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:

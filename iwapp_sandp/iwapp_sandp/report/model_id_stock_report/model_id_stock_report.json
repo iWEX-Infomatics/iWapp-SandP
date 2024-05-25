@@ -9,7 +9,7 @@
  "filters": [],
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2024-05-01 11:38:06.455268",
+ "modified": "2024-05-24 17:42:57.908256",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Model ID Stock Report",
@@ -24,6 +24,9 @@
   },
   {
    "role": "Accounts Manager"
+  },
+  {
+   "role": "All"
   }
  ]
 }
