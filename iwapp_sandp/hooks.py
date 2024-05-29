@@ -39,7 +39,8 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Task" : "public/js/task.js", "Opportunity" : "public/js/opportunity.js",
 "Quotation" : "public/js/quotation.js", "Payment Entry" : "public/js/payment_entry.js",
 "Blanket Order" : "public/js/blanket_order.js", "Issue" : "public/js/issue.js",
-"Journal Entry" : "public/js/journal_entry.js", "Address" : "public/js/address.js"
+"Journal Entry" : "public/js/journal_entry.js", "Address" : "public/js/address.js",
+"Payroll Entry" : "public/js/payroll.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js",
@@ -199,7 +200,13 @@ doc_events = {
     },
     "Employee": {
         "before_save": "iwapp_sandp.events.employee.before_save",
-    }     
+    },
+     "Payroll Entry": {
+        "before_save": "iwapp_sandp.events.payroll.before_save",
+    },
+    "Salary Structure Assignment": {
+        "before_save": "iwapp_sandp.events.ss_assignment.before_save",
+    }      
 }
 
 # Scheduled Tasks
@@ -347,12 +354,12 @@ fixtures = [{
             'Employee-custom_work_from', 'Employee-custom_column_break_g2lqt', 'Employee-custom_age',
             'Employee-custom_service', 'Employee-custom_column_break_7jvv2', 'Employee-custom_office_location',
             'Employee-custom_home_location', 'Employee-custom_session_expiry_mobile', 'Employee-custom_section_break_ipltb',
-            'Employee-custom_abbr', 'Employee-custom_leave_policy', 'Employee-custom_payable_account', 'Employee-custom_monthly_salary_offered',
+            'Employee-custom_leave_policy', 'Employee-custom_payable_account', 'Employee-custom_aadhaar_id',
             'Employee-custom_net_pay', 'Employee-custom_gross_salary', 'Employee-custom_basic_pay', 'Employee-custom_da',
             'Employee-custom_hra', 'Employee-custom_column_break_aifvf', 'Employee-custom_performance_allowance', 'Employee-custom_seniority_allowance',
             'Employee-custom_accommodation_allowance', 'Employee-custom_professional_tax', 'Employee-custom_salary_per_day', 'Employee-custom_esi_applicable',
             'Employee-custom_epf_applicable', 'Employee-custom_column_break_p3ofw', 'Employee-custom_uan', 'Employee-custom_esi_id', 'Employee-custom_epf_id',
-            'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr', 'Employee-custom_aadhaar_id'
+            'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr'
             )]
     ]
     },
@@ -371,7 +378,8 @@ fixtures = [{
                 "Item",
                 "Employee Checkin",
                 "Leave Application",
-                "Employee"
+                "Employee",
+                "Salary Structure Assignment"
             )]
         ]
     }
