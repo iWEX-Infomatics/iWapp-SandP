@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-29 11:09:56.648216",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "date",
+  "default_shift",
+  "in",
+  "designation",
+  "late_in",
+  "leave_application",
+  "mobile",
+  "work_from",
+  "column_break_lns2j",
+  "hours",
+  "status",
+  "approved",
+  "out",
+  "department",
+  "early_out",
+  "leave_type",
+  "reports_to",
+  "employee_checkins"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "ID",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "default_shift",
+   "fieldtype": "Link",
+   "label": "Default Shift",
+   "options": "Shift Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "in",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "IN",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "late_in",
+   "fieldtype": "Data",
+   "label": "Late In (In Minutes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "leave_application",
+   "fieldtype": "Link",
+   "label": "Leave Application",
+   "options": "Leave Application",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.cell_number",
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.custom_work_from",
+   "fieldname": "work_from",
+   "fieldtype": "Data",
+   "label": "Work From",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lns2j",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Data",
+   "label": "Hours",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nPresent\nAbsent\nOn Leave\nHalf Day\nWork From Home\nLeave Applied",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Approved",
+   "options": "\nYes\nNo\nHold"
+  },
+  {
+   "fieldname": "out",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "OUT",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "early_out",
+   "fieldtype": "Data",
+   "label": "Early Out (In Minutes)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "leave_application.leave_type",
+   "fieldname": "leave_type",
+   "fieldtype": "Link",
+   "label": "Leave Type",
+   "options": "Leave Type",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.reports_to",
+   "fieldname": "reports_to",
+   "fieldtype": "Link",
+   "label": "Reports To",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee_checkins",
+   "fieldtype": "Data",
+   "label": "Employee Checkins",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-29 14:52:49.940153",
+ "modified_by": "Administrator",
+ "module": "iWapp-SandP",
+ "name": "Daily Mark Attendance Tool Child",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

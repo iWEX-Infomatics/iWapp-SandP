@@ -194,8 +194,11 @@ doc_events = {
         "validate": "iwapp_sandp.events.quotation.validate",
         # "before_save": "iwapp_sandp.events.quotation.before_save"
     },
-     "Expense Claim": {
+    "Expense Claim": {
         "after_insert": "iwapp_sandp.events.expense_claim.after_insert",
+    },
+    "Employee": {
+        "before_save": "iwapp_sandp.events.employee.before_save",
     }     
 }
 
@@ -338,7 +341,18 @@ fixtures = [{
             "Customer-custom_default_values", "Supplier-custom_default_values", "Delivery Note Item-custom_has_batch_no",
             "Sales Order Item-custom_has_batch_no", "Batch-custom_brand", "Batch-custom_model_id", "Purchase Receipt Item-custom_has_batch_no",
             "Delivery Note Item-custom_has_model_id", "Delivery Note Item-custom_has_serial_no", "Sales Order Item-custom_has_serial_no",
-            "Sales Order Item-custom_has_model_id", "Delivery Note Item-custom_model_wise_serial", "Purchase Receipt Item-custom_item_group"
+            "Sales Order Item-custom_has_model_id", "Delivery Note Item-custom_model_wise_serial", "Purchase Receipt Item-custom_item_group",
+            "Employee Checkin-custom_location", "Employee Checkin-custom_selfie", "Employee Checkin-custom_attendance_marked",
+            "Employee Checkin-custom_work_from", "Leave Application-custom_shift", "Leave Application-custom_abbr",
+            'Employee-custom_work_from', 'Employee-custom_column_break_g2lqt', 'Employee-custom_age',
+            'Employee-custom_service', 'Employee-custom_column_break_7jvv2', 'Employee-custom_office_location',
+            'Employee-custom_home_location', 'Employee-custom_session_expiry_mobile', 'Employee-custom_section_break_ipltb',
+            'Employee-custom_abbr', 'Employee-custom_leave_policy', 'Employee-custom_payable_account', 'Employee-custom_monthly_salary_offered',
+            'Employee-custom_net_pay', 'Employee-custom_gross_salary', 'Employee-custom_basic_pay', 'Employee-custom_da',
+            'Employee-custom_hra', 'Employee-custom_column_break_aifvf', 'Employee-custom_performance_allowance', 'Employee-custom_seniority_allowance',
+            'Employee-custom_accommodation_allowance', 'Employee-custom_professional_tax', 'Employee-custom_salary_per_day', 'Employee-custom_esi_applicable',
+            'Employee-custom_epf_applicable', 'Employee-custom_column_break_p3ofw', 'Employee-custom_uan', 'Employee-custom_esi_id', 'Employee-custom_epf_id',
+            'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr', 'Employee-custom_aadhaar_id'
             )]
     ]
     },
@@ -354,7 +368,10 @@ fixtures = [{
                 "Sales Invoice Item",
                 "Sales Order Item",
                 "Project",
-                "Item"
+                "Item",
+                "Employee Checkin",
+                "Leave Application",
+                "Employee"
             )]
         ]
     }
