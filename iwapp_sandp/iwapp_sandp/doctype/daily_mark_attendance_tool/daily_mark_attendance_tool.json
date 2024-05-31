@@ -18,7 +18,9 @@
   "column_break_vvwjf",
   "fetch_employee_checkin",
   "create_attendance",
-  "status",
+  "section_break_k8qum",
+  "status_html",
+  "color_html",
   "section_break_iquom",
   "attendance_mark"
  ],
@@ -91,11 +93,6 @@
    "label": "Create Attendance"
   },
   {
-   "fieldname": "status",
-   "fieldtype": "HTML",
-   "label": "Status"
-  },
-  {
    "fieldname": "section_break_iquom",
    "fieldtype": "Section Break"
   },
@@ -103,13 +100,28 @@
    "fieldname": "attendance_mark",
    "fieldtype": "Table",
    "options": "Daily Mark Attendance Tool Child"
+  },
+  {
+   "fieldname": "status_html",
+   "fieldtype": "HTML",
+   "label": "Status"
+  },
+  {
+   "depends_on": "eval:doc.shift && doc.from_date;",
+   "fieldname": "section_break_k8qum",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "color_html",
+   "fieldtype": "HTML",
+   "label": "Color_html"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-29 14:33:52.940732",
+ "modified": "2024-05-31 20:34:34.726809",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Daily Mark Attendance Tool",

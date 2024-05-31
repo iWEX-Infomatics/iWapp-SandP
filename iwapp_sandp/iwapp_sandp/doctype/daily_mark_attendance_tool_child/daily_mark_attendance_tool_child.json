@@ -7,25 +7,38 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "employee_details_section",
   "employee",
+  "mobile",
+  "column_break_f3hdi",
+  "designation",
+  "department",
+  "column_break_2vvwl",
+  "reports_to",
+  "employee_checkins",
+  "column_break_fnala",
   "date",
   "default_shift",
+  "employee_checkin_details_section",
   "in",
-  "designation",
   "late_in",
-  "leave_application",
-  "mobile",
-  "work_from",
-  "column_break_lns2j",
-  "hours",
-  "status",
-  "approved",
+  "column_break_q6n0i",
   "out",
-  "department",
   "early_out",
-  "leave_type",
-  "reports_to",
-  "employee_checkins"
+  "column_break_rbhqw",
+  "hours",
+  "column_break_xem3q",
+  "work_from",
+  "status_approval_section",
+  "status",
+  "attendance_marked",
+  "column_break_lns2j",
+  "approved",
+  "attendance_requested",
+  "column_break_km7tw",
+  "leave_application",
+  "column_break_nwqbk",
+  "leave_type"
  ],
  "fields": [
   {
@@ -40,7 +53,7 @@
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Date",
+   "label": "Attendance Date",
    "read_only": 1
   },
   {
@@ -107,8 +120,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "\nPresent\nAbsent\nOn Leave\nHalf Day\nWork From Home\nLeave Applied",
-   "read_only": 1
+   "options": "\nPresent\nAbsent\nOn Leave\nHalf Day\nWork From Home\nLeave Applied\nRejected\nCheck"
   },
   {
    "fieldname": "approved",
@@ -159,12 +171,74 @@
    "fieldtype": "Data",
    "label": "Employee Checkins",
    "read_only": 1
+  },
+  {
+   "fieldname": "employee_details_section",
+   "fieldtype": "Section Break",
+   "label": "Employee Details"
+  },
+  {
+   "fieldname": "column_break_f3hdi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_2vvwl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_fnala",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_q6n0i",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee_checkin_details_section",
+   "fieldtype": "Section Break",
+   "label": "Employee Checkin Details"
+  },
+  {
+   "fieldname": "column_break_rbhqw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xem3q",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_approval_section",
+   "fieldtype": "Section Break",
+   "label": "Status & Approval"
+  },
+  {
+   "fieldname": "column_break_km7tw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nwqbk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "attendance_marked",
+   "fieldtype": "Check",
+   "label": "Attendance Marked",
+   "options": "0",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "attendance_requested",
+   "fieldtype": "Check",
+   "label": "Attendance Requested",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-29 14:52:49.940153",
+ "modified": "2024-05-31 21:15:10.608982",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Daily Mark Attendance Tool Child",

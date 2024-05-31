@@ -1,7 +1,7 @@
 # Copyright (c) 2024, Iwex Informatics and contributors
 # For license information, please see license.txt
 
-import frappe, json
+import frappe, json, datetime
 from frappe.model.document import Document
 
 class DailyMarkAttendanceTool(Document):
@@ -50,137 +50,195 @@ def get_employee_checkin(from_date, shift):
 		# Function to parse datetime string using frappe.utils.get_datetime
 		def parse_checkin(record):
 			return frappe.utils.get_datetime(record["checkin"])
-		
-		# Create the new list of dictionaries
-		result = []
+		aggregated_checkins_list = []
+		# Process records for each employee and shift
 		for employee, shifts in grouped_records.items():
 			for shift_type, records in shifts.items():
-				in_records = [rec for rec in records if rec["log_type"] == "IN"]
-				out_records = [rec for rec in records if rec["log_type"] == "OUT"]
-		
-				if in_records:
-					earliest_in_record = min(in_records, key=parse_checkin)
-				else:
-					earliest_in_record = None
-		
-				if out_records:
-					latest_out_record = max(out_records, key=parse_checkin)
-				else:
-					latest_out_record = None
-		
+				# Filter IN and OUT records based on date
+				in_records = [rec for rec in records if rec["log_type"] == "IN" and rec['date'].strftime('%Y-%m-%d') == from_date]
+				out_records = [rec for rec in records if rec["log_type"] == "OUT" and rec['date'].strftime('%Y-%m-%d') == to_date]
+
+				# Find earliest IN record and latest OUT record
+				earliest_in_record = min(in_records, key=parse_checkin) if in_records else None
+				latest_out_record = max(out_records, key=parse_checkin) if out_records else None
+
+				# Initialize variables
+				in_time_checkin = earliest_in_record["checkin"].strftime('%H:%M:%S') if earliest_in_record else ""
+				out_time_checkin = latest_out_record["checkin"].strftime('%H:%M:%S') if latest_out_record else ""
+				hour_diff = ""
+				status = ""
+				early_out = ""
+				late_in = ""
+
 				if earliest_in_record and latest_out_record:
-					if earliest_in_record["checkin"] and latest_out_record["checkin"]:
-						# hour_diff = frappe.utils.get_time(latest_out_record["checkin"] - earliest_in_record["checkin"])
-						hour_diff = (latest_out_record["checkin"] - earliest_in_record["checkin"]).total_seconds() / 3600  # Convert seconds to hours
-						hour_diff = round(hour_diff, 3)
-						in_time_checkin = (str(frappe.utils.get_time(earliest_in_record["checkin"]))).split(".")[0]
-						out_time_checkin = (str(frappe.utils.get_time(latest_out_record["checkin"]))).split(".")[0]
-						shift_details_doc = frappe.get_doc("Shift Type", shift)
-						if hour_diff:
-							status = ""
-							# Convert each value to a formatted time string
-							if hour_diff > shift_details_doc.working_hours_threshold_for_half_day:
-								status = "Present"
-							elif hour_diff < shift_details_doc.working_hours_threshold_for_half_day and hour_diff >= shift_details_doc.working_hours_threshold_for_absent:
-								status = "Half Day"
-							elif hour_diff < shift_details_doc.working_hours_threshold_for_absent:
-								status = "Absent"
-							else:
-								status  # Set status to empty string if none of the conditions are met
-						start_time = shift_details_doc.start_time
-						end_time = shift_details_doc.end_time
-						if start_time:
-							late_in = ""
-							late_entry_grace_period = shift_details_doc.late_entry_grace_period
-							# for adding minutes to time
-							start_date_time = f"{frappe.utils.getdate()} {start_time}"
-							late_in_time = frappe.utils.get_time(frappe.utils.add_to_date(start_date_time, minutes=late_entry_grace_period))
-							in_datetime = earliest_in_record["checkin"]
+					# Calculate hour difference
+					hour_diff = (latest_out_record["checkin"] - earliest_in_record["checkin"]).total_seconds() / 3600  # Convert seconds to hours
+					hour_diff = round(hour_diff, 3)
+
+					shift_details_doc = frappe.get_doc("Shift Type", shift)
+
+					if hour_diff:
+						# Determine attendance status
+						if hour_diff > shift_details_doc.working_hours_threshold_for_half_day:
+							status = "Present"
+						elif hour_diff < shift_details_doc.working_hours_threshold_for_half_day and hour_diff >= shift_details_doc.working_hours_threshold_for_absent:
+							status = "Half Day"
+						elif hour_diff < shift_details_doc.working_hours_threshold_for_absent:
+							status = "Absent"
+
+					start_time = shift_details_doc.start_time
+					end_time = shift_details_doc.end_time
+
+					if start_time:
+						# Calculate late in time
+						late_entry_grace_period = shift_details_doc.late_entry_grace_period
+						start_date_time = f"{frappe.utils.getdate()} {start_time}"
+						late_in_time = frappe.utils.get_time(frappe.utils.add_to_date(start_date_time, minutes=late_entry_grace_period))
+						in_datetime = earliest_in_record["checkin"]
+
+						if in_datetime:
+							in_time = frappe.utils.get_time(in_datetime)
 							
-							# Check if in_time_str is not None
-							if in_datetime is not None:
-								# Convert in_time_str to a datetime.time object
-								in_time = frappe.utils.get_time(in_datetime)
-								
-								# Check if in_time is not None
-								if in_time:
-									# Check if in_time is later than late_in_time
-									if in_time > late_in_time:
-										in_time_diff = frappe.utils.time_diff_in_seconds(str(in_time), str(start_time))
-										# late_in_dict = {"late_in":in_time_diff}
-										in_time_diff_mins = in_time_diff/60
-										late_in = round(in_time_diff_mins, 0)
-						else:
-							# Handle the case when start_time is None
-							frappe.msgprint("Start time is not defined.")
-						if end_time:
-							early_out = ""
-							early_exit_grace_period = shift_details_doc.early_exit_grace_period
-							end_date_time = f"{frappe.utils.getdate()} {end_time}"
-							early_out_time = frappe.utils.get_time(frappe.utils.add_to_date(end_date_time, minutes=-(early_exit_grace_period)))
-							out_datetime = latest_out_record["checkin"]
-							
-							# Check if out_time_str is not None
-							if out_datetime is not None:
-								# Convert out_time_str to a datetime.time object
-								out_time = frappe.utils.get_time(out_datetime)
-				
-								# Check if in_time is not None
-								if out_time:
-									# Check if in_time is later than late_in_time
-									if out_time < early_out_time:
-										out_time_diff = frappe.utils.time_diff_in_seconds(str(end_time), str(out_time))
-										# late_in_dict = {"late_in":in_time_diff}
-										out_time_diff_mins = out_time_diff/60
-										early_out = round(out_time_diff_mins, 0)
-						else:
-							# Handle the case when end_time is None
-							frappe.msgprint("End time is not defined.")
-			
+							if in_time and in_time > late_in_time:
+								in_time_diff = frappe.utils.time_diff_in_seconds(str(in_time), str(start_time))
+								in_time_diff_mins = in_time_diff / 60
+								late_in = round(in_time_diff_mins, 0)
+					else:
+						frappe.msgprint("Start time is not defined.")
 					
-					result.append({
-						"employee": employee,
-						"date": earliest_in_record["date"],
-						"in": in_time_checkin,
-						"out": out_time_checkin,
-						"shift": earliest_in_record["shift_type"],
-						"hour":hour_diff,
-						"status":status,
-						"early_out":early_out,
-						"late_in":late_in,
-						"employee_checkins": f'{earliest_in_record["id"]}, {latest_out_record["id"]}'
-					})
-		leave_applications = frappe.db.get_list('Leave Application', 
-		filters={
-			'from_date': ['<=', from_date],
-			'to_date': ['>=', from_date],
-			'custom_shift':shift
-		}, 
-		fields = ["name", "employee", "docstatus", "from_date", "to_date", "total_leave_days", "status", "custom_shift"], as_list = False
+					if end_time:
+						# Calculate early out time
+						early_exit_grace_period = shift_details_doc.early_exit_grace_period
+						end_date_time = f"{frappe.utils.getdate()} {end_time}"
+						early_out_time = frappe.utils.get_time(frappe.utils.add_to_date(end_date_time, minutes=-(early_exit_grace_period)))
+						out_datetime = latest_out_record["checkin"]
+
+						if out_datetime:
+							out_time = frappe.utils.get_time(out_datetime)
+
+							if out_time and out_time < early_out_time:
+								out_time_diff = frappe.utils.time_diff_in_seconds(str(end_time), str(out_time))
+								out_time_diff_mins = out_time_diff / 60
+								early_out = round(out_time_diff_mins, 0)
+					else:
+						frappe.msgprint("End time is not defined.")
+
+				# Append to aggregated_checkins_list regardless of whether records exist
+				aggregated_checkins_list.append({
+					"employee": employee,
+					"date": from_date,
+					"in": in_time_checkin,
+					"out": out_time_checkin,
+					"shift": shift,
+					"hour": hour_diff,
+					"status": status,
+					"early_out": early_out,
+					"late_in": late_in,
+					"employee_checkins": f'{earliest_in_record["id"] if earliest_in_record else ""}, {latest_out_record["id"] if latest_out_record else ""}',
+					"attendance_requested" : "",
+					"attendance_marked" : ""
+				})
+
+		# Fetch employee list, attendance, attendance requests, and leave applications
+		employee_list = frappe.db.get_list('Employee',
+			filters={
+				'default_shift': shift,
+				'status': "Active"
+			}, pluck="name")
+
+		employee_att_list = frappe.db.get_list('Attendance',
+			filters={
+				'attendance_date': from_date,
+				'docstatus': "1",
+				'shift': shift
+			}, pluck="employee")
+
+		employee_att_req_list = frappe.db.get_list('Attendance Request',
+			filters={
+				'from_date': ['<=', from_date],
+				'to_date': ['>=', from_date],
+				'shift': shift
+			}, pluck="employee")
+
+		leave_applications = frappe.db.get_list('Leave Application',
+			filters={
+				'from_date': ['<=', from_date],
+				'to_date': ['>=', from_date],
+				'custom_shift': shift
+			},
+			fields=["name", "employee", "docstatus", "from_date", "to_date", "total_leave_days", "status", "custom_shift"], as_list=False
 		)
-		leave_list = []
-		if leave_applications:
-			for leave_app in leave_applications:
-				leave_from_date = frappe.utils.getdate(leave_app["from_date"])
-				leave_to_date = frappe.utils.getdate(leave_app["to_date"])
-				# Check if the status is "Approved"
-				if leave_app["status"] == "Approved" and leave_app["docstatus"] == 1:
-					approved = "Yes"
-					status = "On Leave"
-				else:
-					approved = "No"
-					status = "Leave Applied"
-				leave_application = leave_app["name"]
-				employee = leave_app["employee"]
-				# Calculate the number of days between from_date and to_date
-				total_days = leave_app["total_leave_days"]
-				leave_list.append({"employee": leave_app["employee"], "date": from_date, "status": status, "leave_application" : leave_app["name"],
-				"approved":approved, "shift" : leave_app["custom_shift"]})
-		if leave_list:
-			result.extend(leave_list)
-		
-		# Show the result
-		frappe.response['message'] = result
+
+		# Ensure all employees are included in the aggregated_checkins_list
+		if employee_list:
+			for emp in employee_list:
+				# Check if the employee is in any of the aggregated check-ins
+				if not any(emp == agg.get("employee") for agg in aggregated_checkins_list):
+					# If not, append a new dictionary with the employee to the aggregated_checkins_list
+					aggregated_checkins_list.append({
+						"employee": emp,
+						"shift": shift,
+						"date": from_date,
+						"in": "",
+						"out": "",
+						"hour": "",
+						"status": "",
+						"early_out": "",
+						"late_in": "",
+						"employee_checkins": "",
+						"attendance_requested" : "",
+						"attendance_marked" : ""
+					})
+
+			leave_list = []
+			if leave_applications:
+				for leave_app in leave_applications:
+					leave_from_date = frappe.utils.getdate(leave_app["from_date"])
+					leave_to_date = frappe.utils.getdate(leave_app["to_date"])
+					if leave_app["status"] == "Approved" and leave_app["docstatus"] == 1:
+						approved = "Yes"
+						status = "On Leave"
+					elif leave_app["status"] == "Rejected" and leave_app["docstatus"] == 1:
+						approved = "No"
+						status = "Rejected"
+					else:
+						approved = "No"
+						status = "Leave Applied"
+					leave_application = leave_app["name"]
+					employee = leave_app["employee"]
+					leave_list.append({"employee": leave_app["employee"], "date": from_date, "status": status, "leave_application": leave_app["name"], "approved": approved, "shift": leave_app["custom_shift"]})
+
+    # Update aggregated_checkins_list with leave details if employee exists in both lists
+			if leave_list:
+				for leave in leave_list:
+					for agg in aggregated_checkins_list:
+						if agg.get("employee") == leave["employee"]:
+							if agg.get("in") is None and agg.get("out") is None:
+								agg.update(leave)
+							else:
+								agg["status"] = "Check"
+								agg["leave_application"] = leave["leave_application"]
+							if (agg.get("in") is None and agg.get("out")) or (agg.get("in") and agg.get("out") is None):
+								agg["status"] = "Check"
+								agg["approved"] = ""
+								agg["leave_application"] = leave["leave_application"]
+							break
+					else:
+						aggregated_checkins_list.append(leave)
+			if employee_att_list:
+				for emp in employee_att_list:
+					for agg in aggregated_checkins_list:
+						if agg.get("employee") == emp:
+							agg["attendance_marked"] = 1
+							break  # Ensure only one instance of the employee is updated
+			if employee_att_req_list:
+				for emp in employee_att_req_list:
+					for agg in aggregated_checkins_list:
+						if agg.get("employee") == emp:
+							agg["attendance_requested"] = 1
+							break  # Ensure only one instance of the employee is updated
+			if aggregated_checkins_list:
+				frappe.response["message"] = aggregated_checkins_list
 
 	else:
 		# Initialize an empty dictionary to store aggregated check-ins
@@ -204,7 +262,6 @@ def get_employee_checkin(from_date, shift):
 			GROUP BY
 				ec.employee, ec.custom_date, ec.log_type
 			""", (from_date, shift), as_dict=True)
-		
 		# Loop through the query results
 		employee_checkin_ids = {}
 		for row in query:
@@ -271,6 +328,25 @@ def get_employee_checkin(from_date, shift):
 
 		# Convert the aggregated_checkins dictionary to a list
 		# employee_list = []
+		employee_list = frappe.db.get_list('Employee',
+		filters={
+			'default_shift':shift,
+			'status': "Active"
+		}, pluck = "name")
+
+		employee_att_list = frappe.db.get_list('Attendance',
+		filters={
+			'attendance_date':from_date,
+			'docstatus': "1",
+			'shift':shift
+		}, pluck = "employee")
+
+		employee_att_req_list = frappe.db.get_list('Attendance Request',
+		filters={
+			'from_date': ['<=', from_date],
+			'to_date': ['>=', from_date],
+			'shift' : shift
+		}, pluck = "employee")
 		aggregated_checkins_list = list(aggregated_checkins.values())
 		for agg in aggregated_checkins_list:
 			if agg.get("shift"):
@@ -331,6 +407,12 @@ def get_employee_checkin(from_date, shift):
 				else:
 					# Handle the case when end_time is None
 					frappe.msgprint("End time is not defined.")
+			# Iterate over the employee_list
+			for emp in employee_list:
+				# Check if the employee is in any of the aggregated check-ins
+				if not any(emp == agg.get("employee") for agg in aggregated_checkins_list):
+					# If not, append a new dictionary with the employee to the aggregated_checkins_list
+					aggregated_checkins_list.append({"employee": emp, "shift": agg.get("shift"), "date":agg.get("date")})
 	
 		leave_applications = frappe.db.get_list('Leave Application', 
 		filters={
@@ -345,21 +427,52 @@ def get_employee_checkin(from_date, shift):
 			for leave_app in leave_applications:
 				leave_from_date = frappe.utils.getdate(leave_app["from_date"])
 				leave_to_date = frappe.utils.getdate(leave_app["to_date"])
-				# Check if the status is "Approved"
 				if leave_app["status"] == "Approved" and leave_app["docstatus"] == 1:
 					approved = "Yes"
 					status = "On Leave"
+				elif leave_app["status"] == "Rejected" and leave_app["docstatus"] == 1:
+					approved = "No"
+					status = "Rejected"
 				else:
 					approved = "No"
 					status = "Leave Applied"
-				leave_application = leave_app["name"]
 				employee = leave_app["employee"]
-				# Calculate the number of days between from_date and to_date
-				total_days = leave_app["total_leave_days"]
-				leave_list.append({"employee": leave_app["employee"], "date": from_date, "status": status, "leave_application" : leave_app["name"],
-				"approved":approved, "shift" : leave_app["custom_shift"]})
+				leave_list.append({"employee": leave_app["employee"], "date": from_date, "status": status, "leave_application": leave_app["name"], "approved": approved, "shift": leave_app["custom_shift"]})
+
+		# Update aggregated_checkins_list with leave details if employee exists in both lists
 		if leave_list:
-			aggregated_checkins_list.extend(leave_list)
+			for leave in leave_list:
+				for agg in aggregated_checkins_list:
+					if agg.get("employee") == leave["employee"]:
+						if agg.get("in") is None and agg.get("out") is None:
+							agg.update(leave)
+						else:
+							agg["status"] = "Check"
+							agg["leave_application"] = leave["leave_application"]
+						if (agg.get("in") is None and agg.get("out")) or (agg.get("in") and agg.get("out") is None):
+							agg["status"] = "Check"
+							agg["approved"] = ""
+							agg["leave_application"] = leave["leave_application"]
+						break
+				else:
+					aggregated_checkins_list.append(leave)
+		if employee_att_list:
+			for emp in employee_att_list:
+				for agg in aggregated_checkins_list:
+					if agg.get("employee") == emp:
+						agg["attendance_marked"] = 1
+						break  # Ensure only one instance of the employee is updated
+		if employee_att_req_list:
+			for emp in employee_att_req_list:
+				for agg in aggregated_checkins_list:
+					if agg.get("employee") == emp:
+						agg["attendance_requested"] = 1
+						break  # Ensure only one instance of the employee is updated
+		if aggregated_checkins_list:
+			# Sort the aggregated_checkins_list by employee name in ascending order
+			aggregated_checkins_list.sort(key=lambda x: x.get("employee"))
+			frappe.response['message'] = aggregated_checkins_list
+
 				# Generate all dates between from_date and to_date
 				# eg if total_leave_days = 3 the range = [0, 1, 2]
 				# for i in range(int(total_days)):
@@ -375,19 +488,16 @@ def get_employee_checkin(from_date, shift):
 			#         "approved":date_info["approved"], "shift" : frappe.db.get_value("Employee", emp, "default_shift")})
 			# if employee_date_list:
 			#     aggregated_checkins_list.extend(employee_date_list)
-
-		if aggregated_checkins_list:
-			frappe.response['message'] = aggregated_checkins_list
 	
 @frappe.whitelist()
-def mark_daily_attendance(employee_checkins):
-	daily_mark_attendance = frappe.get_doc(employee_checkins)
+def mark_daily_attendance(mark_att_tool):
+	daily_mark_attendance = frappe.get_doc(mark_att_tool)
 
 	# Initialize a counter for the number of attendance records created
 	attendance_count = 0
-
+	status_list = ["Leave Applied", "Rejected", "Check", ]
 	for details in daily_mark_attendance.attendance_mark:
-		if details.approved == "Yes" and details.status != "Leave Applied":
+		if details.approved == "Yes" and details.status not in status_list and details.attendance_marked == 0:
 			attendance = frappe.new_doc("Attendance")
 			attendance.employee = details.employee
 			attendance.status = details.status
@@ -400,8 +510,12 @@ def mark_daily_attendance(employee_checkins):
 			attendance.employee = details.employee
 			attendance.save()
 			attendance.submit()
+			# Set details.attendance_marked to 1 and save the daily_mark_attendance
+			details.attendance_marked = 1
+			daily_mark_attendance.save()
 			# Increment the counter after saving the attendance record
-			attendance_count = attendance_count + 1
+			# attendance_count = attendance_count + 1
+			attendance_count += 1
 			if details.employee_checkins:
 				emp_checkins = details.employee_checkins.split(", ")
 				for checkins in emp_checkins:
