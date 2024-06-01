@@ -171,8 +171,8 @@
 	function color_indicator_heading(frm) {
 		var color_indicators = `
 			<div style="text-align: center;">
-				<p style="font-size: 14px; display: inline-block;">
-					<b> Default Shift: 🔴 Late,&nbsp;&nbsp;&nbsp; Columns ID: 🔵 Attendance Marked,&nbsp;&nbsp;&nbsp; Hours: 🔴 <8 Hours</b>
+				<p style="font-size: 13px; display: inline-block;">
+					Column Icons: in Default Shift 🔴 for Late,&nbsp;&nbsp;&nbsp; in ID 🔵 for Attendance Marked,&nbsp;&nbsp;&nbsp; in Hours 🔴 for <8 Worked Hours
 				</p>
 			</div>
 		`;
