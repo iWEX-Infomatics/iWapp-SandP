@@ -73,7 +73,7 @@ def get_employee_checkin(from_date, shift):
 				if earliest_in_record and latest_out_record:
 					# Calculate hour difference
 					hour_diff = (latest_out_record["checkin"] - earliest_in_record["checkin"]).total_seconds() / 3600  # Convert seconds to hours
-					hour_diff = round(hour_diff, 3)
+					hour_diff = round(hour_diff, 2)
 
 					shift_details_doc = frappe.get_doc("Shift Type", shift)
 
@@ -135,8 +135,8 @@ def get_employee_checkin(from_date, shift):
 					"early_out": early_out,
 					"late_in": late_in,
 					"employee_checkins": f'{earliest_in_record["id"] if earliest_in_record else ""}, {latest_out_record["id"] if latest_out_record else ""}',
-					"attendance_requested" : "",
-					"attendance_marked" : ""
+					# "attendance_requested" : "",
+					# "attendance_marked" : ""
 				})
 
 		# Fetch employee list, attendance, attendance requests, and leave applications
@@ -151,7 +151,7 @@ def get_employee_checkin(from_date, shift):
 				'attendance_date': from_date,
 				'docstatus': "1",
 				'shift': shift
-			}, pluck="employee")
+			}, fields = ["name", "employee"], as_list = False)
 
 		employee_att_req_list = frappe.db.get_list('Attendance Request',
 			filters={
@@ -186,8 +186,8 @@ def get_employee_checkin(from_date, shift):
 						"early_out": "",
 						"late_in": "",
 						"employee_checkins": "",
-						"attendance_requested" : "",
-						"attendance_marked" : ""
+						# "attendance_requested" : "",
+						# "attendance_marked" : ""
 					})
 
 			leave_list = []
@@ -196,7 +196,7 @@ def get_employee_checkin(from_date, shift):
 					leave_from_date = frappe.utils.getdate(leave_app["from_date"])
 					leave_to_date = frappe.utils.getdate(leave_app["to_date"])
 					if leave_app["status"] == "Approved" and leave_app["docstatus"] == 1:
-						approved = "Yes"
+						approved = ""
 						status = "On Leave"
 					elif leave_app["status"] == "Rejected" and leave_app["docstatus"] == 1:
 						approved = "No"
@@ -228,8 +228,10 @@ def get_employee_checkin(from_date, shift):
 			if employee_att_list:
 				for emp in employee_att_list:
 					for agg in aggregated_checkins_list:
-						if agg.get("employee") == emp:
+						if agg.get("employee") == emp.get("employee"):
 							agg["attendance_marked"] = 1
+							agg["attendance"] = emp.get("name")
+							agg["approved"] = "Yes"
 							break  # Ensure only one instance of the employee is updated
 			if employee_att_req_list:
 				for emp in employee_att_req_list:
@@ -314,7 +316,7 @@ def get_employee_checkin(from_date, shift):
 			checkout_time = value["out"]
 			if checkin_time and checkout_time:
 				hour_difference = (checkout_time - checkin_time).total_seconds() / 3600  # Convert seconds to hours
-				hour_difference = round(hour_difference, 3)
+				hour_difference = round(hour_difference, 2)
 				aggregated_checkins[key]["hour"] = hour_difference
 			# Cut the time from in out out and added to aggregated_checkins
 			if checkin_time:
@@ -339,7 +341,7 @@ def get_employee_checkin(from_date, shift):
 			'attendance_date':from_date,
 			'docstatus': "1",
 			'shift':shift
-		}, pluck = "employee")
+		}, fields = ["name", "employee"], as_list = False)
 
 		employee_att_req_list = frappe.db.get_list('Attendance Request',
 		filters={
@@ -428,7 +430,7 @@ def get_employee_checkin(from_date, shift):
 				leave_from_date = frappe.utils.getdate(leave_app["from_date"])
 				leave_to_date = frappe.utils.getdate(leave_app["to_date"])
 				if leave_app["status"] == "Approved" and leave_app["docstatus"] == 1:
-					approved = "Yes"
+					approved = ""
 					status = "On Leave"
 				elif leave_app["status"] == "Rejected" and leave_app["docstatus"] == 1:
 					approved = "No"
@@ -459,8 +461,10 @@ def get_employee_checkin(from_date, shift):
 		if employee_att_list:
 			for emp in employee_att_list:
 				for agg in aggregated_checkins_list:
-					if agg.get("employee") == emp:
+					if agg.get("employee") == emp.get("employee"):
 						agg["attendance_marked"] = 1
+						agg["attendance"] = emp.name
+						agg["approved"] = "Yes"
 						break  # Ensure only one instance of the employee is updated
 		if employee_att_req_list:
 			for emp in employee_att_req_list:
@@ -510,8 +514,10 @@ def mark_daily_attendance(mark_att_tool):
 			attendance.employee = details.employee
 			attendance.save()
 			attendance.submit()
-			# Set details.attendance_marked to 1 and save the daily_mark_attendance
+			# Set details.attendance_marked to 1 and  details.approved = "Yes" and save the daily_mark_attendance
 			details.attendance_marked = 1
+			details.approved = "Yes"
+			details.attendance = attendance.name
 			daily_mark_attendance.save()
 			# Increment the counter after saving the attendance record
 			# attendance_count = attendance_count + 1
