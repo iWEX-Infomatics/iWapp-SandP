@@ -172,7 +172,7 @@
 		var color_indicators = `
 			<div style="text-align: center;">
 				<p style="font-size: 13px; display: inline-block;">
-					Column Icons: in Default Shift 🔴 for Late,&nbsp;&nbsp;&nbsp; in ID 🔵 for Attendance Marked,&nbsp;&nbsp;&nbsp; in Hours 🔴 for <8 Worked Hours
+					Icons: "ID" Column 🔵 is for Attendance Marked  |  "Default Shift" Column 🔴 is for Late  |  "Hours" Column 🔴 is for <8 Worked Hours
 				</p>
 			</div>
 		`;
