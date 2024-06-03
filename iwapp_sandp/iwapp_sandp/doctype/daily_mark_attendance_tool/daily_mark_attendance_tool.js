@@ -107,6 +107,8 @@
 								child.early_out = emp.early_out
 								child.employee_checkins = emp.employee_checkins
 								child.attendance_requested = emp.attendance_requested
+								child.employee_checkin = emp.employee_checkin
+								child.employee_checkout = emp.employee_checkout
 								// child.attendance_marked = emp.attendance_marked
 								child.attendance = emp.attendance
 								frm.refresh_fields("attendance_mark");
@@ -187,8 +189,7 @@
 		var color_indicators = `
 			<div style="text-align: center;">
 				<p style="font-size: 14px; display: inline-block;">
-					<b>TEST</b>
-					<b> Default Shift: 🔴 Late,&nbsp;&nbsp;&nbsp; Columns ID: 🔵 Attendance Marked,&nbsp;&nbsp;&nbsp; Hours: 🔴 <8 Hours</b>
+				Icons: "ID" Column 🟢 Present, 🟠 On Leave, 🔴 Absent, 🔵 Half-Day <b>|</b> "Default Shift" Column 🔴 for Late <b>|</b> "Hours" Column 🔴 for <8 Worked Hours
 				</p>
 			</div>
 		`;

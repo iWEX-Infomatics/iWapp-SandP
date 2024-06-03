@@ -135,6 +135,8 @@ def get_employee_checkin(from_date, shift):
 					"early_out": early_out,
 					"late_in": late_in,
 					"employee_checkins": f'{earliest_in_record["id"] if earliest_in_record else ""}, {latest_out_record["id"] if latest_out_record else ""}',
+					"employee_checkin":earliest_in_record["id"] if earliest_in_record else "",
+					"employee_checkout":latest_out_record["id"] if latest_out_record else ""
 					# "attendance_requested" : "",
 					# "attendance_marked" : ""
 				})
@@ -309,8 +311,15 @@ def get_employee_checkin(from_date, shift):
 		for key in aggregated_checkins:
 			employee = aggregated_checkins[key]["employee"]
 			if employee in employee_checkin_ids:
+				# the <employee_checkins> field in hidden in doctype
 				aggregated_checkins[key]["employee_checkins"] = ", ".join(employee_checkin_ids[employee])
-				
+				if employee_checkin_ids[employee]:
+					for check in employee_checkin_ids[employee]:
+						log_type = frappe.db.get_value("Employee Checkin", check, "log_type")
+						if log_type == "IN":
+							aggregated_checkins[key]["employee_checkin"] = check
+						elif log_type == "OUT":
+							aggregated_checkins[key]["employee_checkout"] = check
 		# Calculate the difference in hours between check-out and check-in times
 		for key, value in aggregated_checkins.items():
 			checkin_time = value["in"]
