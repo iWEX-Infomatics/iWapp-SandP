@@ -187,7 +187,8 @@
 		var color_indicators = `
 			<div style="text-align: center;">
 				<p style="font-size: 14px; display: inline-block;">
-				Icons: "ID" Column 🟢 Present, 🟠 On Leave, 🔴 Absent, 🔵 Half-Day <b>|</b> "Default Shift" Column 🔴 for Late <b>|</b> "Hours" Column 🔴 for <8 Worked Hours
+					<b>TEST</b>
+					<b> Default Shift: 🔴 Late,&nbsp;&nbsp;&nbsp; Columns ID: 🔵 Attendance Marked,&nbsp;&nbsp;&nbsp; Hours: 🔴 <8 Hours</b>
 				</p>
 			</div>
 		`;
