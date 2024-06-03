@@ -9,8 +9,23 @@
 				}
 			});
 			frm.set_indicator_formatter("employee", (doc) => {
-				if (doc.attendance_marked == 1) {
+				// if (doc.attendance_marked == 1) {
+				// 	return "blue";
+				// }
+				if (doc.attendance_status == "Present") {
+					return "green";
+				}
+				else if (doc.attendance_status == "Absent") {
+					return "red";
+				}
+				else if (doc.attendance_status == "Half Day") {
 					return "blue";
+				}
+				else if (doc.attendance_status == "On Leave") {
+					return "orange";
+				}
+				else{
+					return ""
 				}
 			});
 		},
@@ -92,7 +107,7 @@
 								child.early_out = emp.early_out
 								child.employee_checkins = emp.employee_checkins
 								child.attendance_requested = emp.attendance_requested
-								child.attendance_marked = emp.attendance_marked
+								// child.attendance_marked = emp.attendance_marked
 								child.attendance = emp.attendance
 								frm.refresh_fields("attendance_mark");
 							})
@@ -172,7 +187,7 @@
 		var color_indicators = `
 			<div style="text-align: center;">
 				<p style="font-size: 14px; display: inline-block;">
-					<b> Default Shift: 🔴 Late,&nbsp;&nbsp;&nbsp; Columns ID: 🔵 Attendance Marked,&nbsp;&nbsp;&nbsp; Hours: 🔴 <8 Hours</b>
+				Icons: "ID" Column 🟢 Present, 🟠 On Leave, 🔴 Absent, 🔵 Half-Day <b>|</b> "Default Shift" Column 🔴 for Late <b>|</b> "Hours" Column 🔴 for <8 Worked Hours
 				</p>
 			</div>
 		`;

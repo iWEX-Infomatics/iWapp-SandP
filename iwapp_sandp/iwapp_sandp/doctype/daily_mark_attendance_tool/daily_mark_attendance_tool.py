@@ -143,7 +143,8 @@ def get_employee_checkin(from_date, shift):
 		employee_list = frappe.db.get_list('Employee',
 			filters={
 				'default_shift': shift,
-				'status': "Active"
+				'status': "Active",
+				'date_of_joining':["<=", from_date]
 			}, pluck="name")
 
 		employee_att_list = frappe.db.get_list('Attendance',
@@ -229,9 +230,9 @@ def get_employee_checkin(from_date, shift):
 				for emp in employee_att_list:
 					for agg in aggregated_checkins_list:
 						if agg.get("employee") == emp.get("employee"):
-							agg["attendance_marked"] = 1
+							# agg["attendance_marked"] = 1
 							agg["attendance"] = emp.get("name")
-							agg["approved"] = "Yes"
+							agg["approved"] = "Marked"
 							break  # Ensure only one instance of the employee is updated
 			if employee_att_req_list:
 				for emp in employee_att_req_list:
@@ -333,7 +334,8 @@ def get_employee_checkin(from_date, shift):
 		employee_list = frappe.db.get_list('Employee',
 		filters={
 			'default_shift':shift,
-			'status': "Active"
+			'status': "Active",
+			'date_of_joining':["<=", from_date]
 		}, pluck = "name")
 
 		employee_att_list = frappe.db.get_list('Attendance',
@@ -462,9 +464,9 @@ def get_employee_checkin(from_date, shift):
 			for emp in employee_att_list:
 				for agg in aggregated_checkins_list:
 					if agg.get("employee") == emp.get("employee"):
-						agg["attendance_marked"] = 1
+						# agg["attendance_marked"] = 1
 						agg["attendance"] = emp.name
-						agg["approved"] = "Yes"
+						agg["approved"] = "Marked"
 						break  # Ensure only one instance of the employee is updated
 		if employee_att_req_list:
 			for emp in employee_att_req_list:
@@ -501,7 +503,7 @@ def mark_daily_attendance(mark_att_tool):
 	attendance_count = 0
 	status_list = ["Leave Applied", "Rejected", "Check", ]
 	for details in daily_mark_attendance.attendance_mark:
-		if details.approved == "Yes" and details.status not in status_list and details.attendance_marked == 0:
+		if details.approved == "Yes" and details.status not in status_list and details.attendance == None:
 			attendance = frappe.new_doc("Attendance")
 			attendance.employee = details.employee
 			attendance.status = details.status
@@ -514,9 +516,9 @@ def mark_daily_attendance(mark_att_tool):
 			attendance.employee = details.employee
 			attendance.save()
 			attendance.submit()
-			# Set details.attendance_marked to 1 and  details.approved = "Yes" and save the daily_mark_attendance
-			details.attendance_marked = 1
-			details.approved = "Yes"
+			# Set details.attendance_marked to 1 and  details.approved = "Marked" and save the daily_mark_attendance
+			# details.attendance_marked = 1
+			details.approved = "Marked"
 			details.attendance = attendance.name
 			daily_mark_attendance.save()
 			# Increment the counter after saving the attendance record
