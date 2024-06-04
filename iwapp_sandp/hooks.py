@@ -212,13 +212,13 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
 # 	"all": [
 # 		"iwapp_sandp.tasks.all"
 # 	],
-# 	"daily": [
-# 		"iwapp_sandp.tasks.daily"
-# 	],
+	"daily": [
+		"iwapp_sandp.events.employee.set_age_and_service_schedular"
+	],
 # 	"hourly": [
 # 		"iwapp_sandp.tasks.hourly"
 # 	],
@@ -228,7 +228,7 @@ doc_events = {
 # 	"monthly": [
 # 		"iwapp_sandp.tasks.monthly"
 # 	],
-# }
+}
 
 # Testing
 # -------
