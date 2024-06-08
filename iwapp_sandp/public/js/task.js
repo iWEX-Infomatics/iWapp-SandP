@@ -10,11 +10,15 @@ frappe.ui.form.on('Task', {
     refresh: function (frm) {
         dislpay_site_address(frm)
         set_site_address_filter(frm)
-        if (!frm.doc.__islocal){
+        if (!frm.doc.__islocal) {
             frm.add_custom_button(__('Material Request'), function () {
-            frappe.route_options = {custom_task : frm.doc.name}
-            frappe.new_doc('Material Request');
-          }, 'Create')
+                frappe.route_options = {
+                    custom_task: frm.doc.name, material_request_type: "Customer Provided",
+                    customer: frm.doc.custom_customer, custom_site_address: frm.doc.custom_site_address,
+                    custom_site_address_html: frm.doc.custom_site_address_html
+                }
+                frappe.new_doc('Material Request');
+            }, 'Create')
         }
     }
 });
