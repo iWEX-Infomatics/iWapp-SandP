@@ -17,76 +17,163 @@ from erpnext.stock.utils import (
 )
 
 
-def execute(filters=None):
-	is_reposting_item_valuation_in_progress()
-	include_uom = filters.get("include_uom")
-	columns = get_columns(filters)
-	items = get_items(filters)
-	sl_entries = get_stock_ledger_entries(filters, items)
-	item_details = get_item_details(items, sl_entries, include_uom)
-	project_details = get_project_details(sl_entries)
-	model_id_details = get_model_id_details(sl_entries)
-	opening_row = get_opening_balance(filters, columns, sl_entries)
-	precision = cint(frappe.db.get_single_value("System Settings", "float_precision"))
+# def execute(filters=None):
+# 	is_reposting_item_valuation_in_progress()
+# 	include_uom = filters.get("include_uom")
+# 	columns = get_columns(filters)
+# 	items = get_items(filters)
+# 	sl_entries = get_stock_ledger_entries(filters, items)
+# 	item_details = get_item_details(items, sl_entries, include_uom)
+# 	project_details = get_project_details(sl_entries)
+# 	model_id_details = get_model_id_details(sl_entries)
+# 	opening_row = get_opening_balance(filters, columns, sl_entries)
+# 	precision = cint(frappe.db.get_single_value("System Settings", "float_precision"))
 
-	data = []
-	conversion_factors = []
-	if opening_row:
-		data.append(opening_row)
-		conversion_factors.append(0)
+# 	data = []
+# 	conversion_factors = []
+# 	if opening_row:
+# 		data.append(opening_row)
+# 		conversion_factors.append(0)
 
-	actual_qty = stock_value = 0
-	if opening_row:
-		actual_qty = opening_row.get("qty_after_transaction")
-		stock_value = opening_row.get("stock_value")
+# 	actual_qty = stock_value = 0
+# 	if opening_row:
+# 		actual_qty = opening_row.get("qty_after_transaction")
+# 		stock_value = opening_row.get("stock_value")
 
-	available_serial_nos = {}
-	inventory_dimension_filters_applied = check_inventory_dimension_filters_applied(filters)
+# 	available_serial_nos = {}
+# 	inventory_dimension_filters_applied = check_inventory_dimension_filters_applied(filters)
 
-	for sle in sl_entries:
-		item_detail = item_details[sle.item_code]
+# 	for sle in sl_entries:
+# 		item_detail = item_details[sle.item_code]
 
-		sle.update(item_detail)
+# 		sle.update(item_detail)
 
-		pr_detail = project_details.get(sle.project)  # Use get method to handle None
-		if pr_detail:
-			sle.update(pr_detail)
+# 		pr_detail = project_details.get(sle.project)  # Use get method to handle None
+# 		if pr_detail:
+# 			sle.update(pr_detail)
 		
-		# Check if voucher_detail_no exists in model_id_details before accessing it
-		if sle.voucher_detail_no in model_id_details:
-			model_id_detail = model_id_details[sle.get("voucher_detail_no")]
-			if model_id_detail:
-				sle.update(model_id_detail)
+# 		# Check if voucher_detail_no exists in model_id_details before accessing it
+# 		if sle.voucher_detail_no in model_id_details:
+# 			model_id_detail = model_id_details[sle.get("voucher_detail_no")]
+# 			if model_id_detail:
+# 				sle.update(model_id_detail)
+# 				# Apply model_id filter
+# 				if filters.get("model_id"):
+# 					model_id_filter = filters.get("model_id")
+# 					if sle.get("model_id") is None or sle.get("model_id") == "":
+# 						continue  # Skip this entry if model_id is None or empty
+# 					if sle.get("model_id") != model_id_filter:
+# 						continue  # Skip this entry if model_id does not match
+				
 
-		if filters.get("batch_no") or inventory_dimension_filters_applied:
-			actual_qty += flt(sle.actual_qty, precision)
-			stock_value += sle.stock_value_difference
+# 		if filters.get("batch_no") or inventory_dimension_filters_applied:
+# 			actual_qty += flt(sle.actual_qty, precision)
+# 			stock_value += sle.stock_value_difference
 
-			if sle.voucher_type == "Stock Reconciliation" and not sle.actual_qty:
-				actual_qty = sle.qty_after_transaction
-				stock_value = sle.stock_value
+# 			if sle.voucher_type == "Stock Reconciliation" and not sle.actual_qty:
+# 				actual_qty = sle.qty_after_transaction
+# 				stock_value = sle.stock_value
 
-			sle.update({"qty_after_transaction": actual_qty, "stock_value": stock_value})
+# 			sle.update({"qty_after_transaction": actual_qty, "stock_value": stock_value})
 
-		sle.update({"in_qty": max(sle.actual_qty, 0), "out_qty": min(sle.actual_qty, 0)})
+# 		sle.update({"in_qty": max(sle.actual_qty, 0), "out_qty": min(sle.actual_qty, 0)})
 
-		if sle.serial_no:
-			update_available_serial_nos(available_serial_nos, sle)
+# 		if sle.serial_no:
+# 			update_available_serial_nos(available_serial_nos, sle)
 
-		if sle.actual_qty:
-			sle["in_out_rate"] = flt(sle.stock_value_difference / sle.actual_qty, precision)
+# 		if sle.actual_qty:
+# 			sle["in_out_rate"] = flt(sle.stock_value_difference / sle.actual_qty, precision)
 
-		elif sle.voucher_type == "Stock Reconciliation":
-			sle["in_out_rate"] = sle.valuation_rate
+# 		elif sle.voucher_type == "Stock Reconciliation":
+# 			sle["in_out_rate"] = sle.valuation_rate
 
-		data.append(sle)
+# 		data.append(sle)
 
-		if include_uom:
-			conversion_factors.append(item_detail.conversion_factor)
+# 		if include_uom:
+# 			conversion_factors.append(item_detail.conversion_factor)
 
-	update_included_uom_in_report(columns, data, include_uom, conversion_factors)
-	# print(data)
-	return columns, data
+# 	update_included_uom_in_report(columns, data, include_uom, conversion_factors)
+# 	return columns, data
+
+def execute(filters=None):
+    is_reposting_item_valuation_in_progress()
+    include_uom = filters.get("include_uom")
+    columns = get_columns(filters)
+    items = get_items(filters)
+    sl_entries = get_stock_ledger_entries(filters, items)
+    item_details = get_item_details(items, sl_entries, include_uom)
+    project_details = get_project_details(sl_entries)
+    model_id_details = get_model_id_details(sl_entries)
+    opening_row = get_opening_balance(filters, columns, sl_entries)
+    precision = cint(frappe.db.get_single_value("System Settings", "float_precision"))
+
+    data = []
+    conversion_factors = []
+    if opening_row:
+        data.append(opening_row)
+        conversion_factors.append(0)
+
+    actual_qty = stock_value = 0
+    if opening_row:
+        actual_qty = opening_row.get("qty_after_transaction")
+        stock_value = opening_row.get("stock_value")
+
+    available_serial_nos = {}
+    inventory_dimension_filters_applied = check_inventory_dimension_filters_applied(filters)
+
+    for sle in sl_entries:
+        item_detail = item_details[sle.item_code]
+
+        sle.update(item_detail)
+
+        pr_detail = project_details.get(sle.project)  # Use get method to handle None
+        if pr_detail:
+            sle.update(pr_detail)
+
+        # Check if voucher_detail_no exists in model_id_details before accessing it
+        if sle.voucher_detail_no in model_id_details:
+            model_id_detail = model_id_details[sle.get("voucher_detail_no")]
+            if model_id_detail:
+                sle.update(model_id_detail)
+
+        # Apply model_id filter
+        if filters.get("model_id"):
+            model_id_filter = filters.get("model_id")
+            sle_model_id = sle.get("model_id")
+
+            if sle_model_id is None or sle_model_id == "":
+                continue  # Skip this entry if model_id is None or empty
+            if sle_model_id != model_id_filter:
+                continue  # Skip this entry if model_id does not match
+
+        if filters.get("batch_no") or inventory_dimension_filters_applied:
+            actual_qty += flt(sle.actual_qty, precision)
+            stock_value += sle.stock_value_difference
+
+            if sle.voucher_type == "Stock Reconciliation" and not sle.actual_qty:
+                actual_qty = sle.qty_after_transaction
+                stock_value = sle.stock_value
+
+            sle.update({"qty_after_transaction": actual_qty, "stock_value": stock_value})
+
+        sle.update({"in_qty": max(sle.actual_qty, 0), "out_qty": min(sle.actual_qty, 0)})
+
+        if sle.serial_no:
+            update_available_serial_nos(available_serial_nos, sle)
+
+        if sle.actual_qty:
+            sle["in_out_rate"] = flt(sle.stock_value_difference / sle.actual_qty, precision)
+        elif sle.voucher_type == "Stock Reconciliation":
+            sle["in_out_rate"] = sle.valuation_rate
+
+        data.append(sle)
+
+        if include_uom:
+            conversion_factors.append(item_detail.conversion_factor)
+
+    update_included_uom_in_report(columns, data, include_uom, conversion_factors)
+    return columns, data
+
 
 
 def update_available_serial_nos(available_serial_nos, sle):
@@ -442,7 +529,7 @@ def get_model_id_details(sl_entries):
     for v in sl_entries:
         a = frappe.db.get_list(f"{v.get('voucher_type')} Item", filters={"parent": v.get("voucher_no"), "name": ["in", voucher_detail_no], "custom_model_id": ["!=", ""]},
                                 fields=["name", "custom_model_id"],
-                                as_list=False)
+                                as_list=False, ignore_permissions=True)  # Bypassing permissions
         for i in a:
             # Create a dictionary with the desired structure
             entry = {
@@ -465,12 +552,14 @@ def get_sle_conditions(filters):
 		conditions.append("batch_no=%(batch_no)s")
 	if filters.get("project"):
 		conditions.append("project=%(project)s")
-
+	# if filters.get("model_id"):
+	# 	conditions.append("custom_model_id=%(model_id)s")
 	for dimension in get_inventory_dimensions():
 		if filters.get(dimension.fieldname):
 			conditions.append(f"{dimension.fieldname} in %({dimension.fieldname})s")
 
 	return "and {}".format(" and ".join(conditions)) if conditions else ""
+
 
 
 def get_opening_balance(filters, columns, sl_entries):

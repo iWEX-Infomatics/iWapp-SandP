@@ -2,11 +2,11 @@ frappe.ui.form.on("Material Request", {
     custom_site_address: function (frm) {
         dislpay_site_address(frm)
     },
-    customer: function (frm) {
-        frm.set_value("custom_site_address", "")
-        set_site_address_filter(frm)
+    // customer: function (frm) {
+    //     frm.set_value("custom_site_address", "")
+    //     set_site_address_filter(frm)
 
-    },
+    // },
     refresh: function (frm) {
         dislpay_site_address(frm)
         set_site_address_filter(frm)

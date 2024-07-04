@@ -54,11 +54,17 @@ frappe.query_reports["Model ID Stock Report"] = {
 			fieldtype: "Link",
 			options: "Item Group",
 		},
+		// {
+		// 	fieldname: "batch_no",
+		// 	label: __("Batch No"),
+		// 	fieldtype: "Link",
+		// 	options: "Batch",
+		// },
 		{
-			fieldname: "batch_no",
-			label: __("Batch No"),
+			fieldname: "model_id",
+			label: __("Model ID"),
 			fieldtype: "Link",
-			options: "Batch",
+			options: "Item Model ID",
 		},
 		{
 			fieldname: "brand",

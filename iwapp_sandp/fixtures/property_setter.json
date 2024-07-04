@@ -23,13 +23,13 @@
   "doctype_or_field": "DocField",
   "field_name": "naming_series",
   "is_system_generated": 0,
-  "modified": "2024-05-16 12:06:12.979415",
+  "modified": "2024-07-04 19:47:17.606304",
   "module": null,
   "name": "Project-naming_series-options",
   "property": "options",
   "property_type": "Text",
   "row_name": null,
-  "value": "PROJ-.####"
+  "value": "PROJ.####"
  },
  {
   "default_value": null,
