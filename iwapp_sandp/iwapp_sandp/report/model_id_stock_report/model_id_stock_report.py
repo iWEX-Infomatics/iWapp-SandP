@@ -140,7 +140,7 @@ def get_columns(filters):
 			"fieldtype": "Link",
 			"options": "UOM",
 			"width": 90,
-		},
+		}
 	]
 
 	for dimension in get_inventory_dimensions():
@@ -401,20 +401,39 @@ def get_item_details(items, sl_entries, include_uom):
 
 	return item_details
 
-def get_project_details(sl_entries):
-	project_details = {}
-	projects = list(set(d.project for d in sl_entries))	
-	project = frappe.qb.DocType("Project")
-	query = (
-		frappe.qb.from_(project)
-		.select(project.name, project.project_name)
-		.where(project.name.isin(projects))
-	)
-	res = query.run(as_dict=True)
+# def get_project_details(sl_entries):
+# 	project_details = {}
+# 	projects = list(set(d.project for d in sl_entries))
+# 	project = frappe.qb.DocType("Project")
+# 	query = (
+# 		frappe.qb.from_(project)
+# 		.select(project.name, project.project_name)
+# 		.where(project.name.isin(projects))
+# 	)
+# 	res = query.run(as_dict=True)
 
-	for project in res:
-		project_details.setdefault(project.name, project)
-	return project_details
+# 	for project in res:
+# 		project_details.setdefault(project.name, project)
+# 	return project_details
+
+def get_project_details(sl_entries):
+    project_details = {}
+    projects = list(set(d.project for d in sl_entries if d.project))  # Ensure no None values
+
+    if projects:  # Only run query if projects list is not empty
+        project = frappe.qb.DocType("Project")
+        query = (
+            frappe.qb.from_(project)
+            .select(project.name, project.project_name)
+            .where(project.name.isin(projects))
+        )
+        res = query.run(as_dict=True)
+
+        for project in res:
+            project_details.setdefault(project.name, project)
+
+    return project_details
+
 
 
 def get_model_id_details(sl_entries):
