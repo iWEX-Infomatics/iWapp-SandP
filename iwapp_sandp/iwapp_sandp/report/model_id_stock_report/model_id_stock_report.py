@@ -523,14 +523,38 @@ def get_project_details(sl_entries):
 
 
 
+# def get_model_id_details(sl_entries):
+#     model_id_details = {}
+#     voucher_detail_no = list(set(d.voucher_detail_no for d in sl_entries))
+#     for v in sl_entries:
+#         a = frappe.db.get_list(f"{v.get('voucher_type')} Item", filters={"parent": v.get("voucher_no"), "name": ["in", voucher_detail_no], "custom_model_id": ["!=", ""]},
+#                                 fields=["name", "custom_model_id"],
+#                                 as_list=False, ignore_permissions=True)  # Bypassing permissions
+#         for i in a:
+#             # Create a dictionary with the desired structure
+#             entry = {
+#                 'name': i.get("name"),
+#                 'model_id': i.get("custom_model_id")
+#             }
+#             # Use setdefault to add the entry to model_id_details
+#             model_id_details.setdefault(i.get("name"), entry)
+#     return model_id_details
+
 def get_model_id_details(sl_entries):
     model_id_details = {}
     voucher_detail_no = list(set(d.voucher_detail_no for d in sl_entries))
     for v in sl_entries:
-        a = frappe.db.get_list(f"{v.get('voucher_type')} Item", filters={"parent": v.get("voucher_no"), "name": ["in", voucher_detail_no], "custom_model_id": ["!=", ""]},
-                                fields=["name", "custom_model_id"],
-                                as_list=False, ignore_permissions=True)  # Bypassing permissions
-        for i in a:
+        # Determine the correct DocType based on the voucher type
+        doc_type = f"{v.get('voucher_type')} Detail" if v.get('voucher_type') == "Stock Entry" else f"{v.get('voucher_type')} Item"
+        # Perform the database query
+        query_results = frappe.db.get_list(
+            doc_type,
+            filters={"parent": v.get("voucher_no"), "name": ["in", voucher_detail_no], "custom_model_id": ["!=", ""]},
+            fields=["name", "custom_model_id"],
+            as_list=False,
+            ignore_permissions=True  # Bypassing permissions
+        )
+        for i in query_results:
             # Create a dictionary with the desired structure
             entry = {
                 'name': i.get("name"),
@@ -539,6 +563,7 @@ def get_model_id_details(sl_entries):
             # Use setdefault to add the entry to model_id_details
             model_id_details.setdefault(i.get("name"), entry)
     return model_id_details
+
 
 def get_sle_conditions(filters):
 	conditions = []
