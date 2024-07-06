@@ -40,7 +40,7 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Quotation" : "public/js/quotation.js", "Payment Entry" : "public/js/payment_entry.js",
 "Blanket Order" : "public/js/blanket_order.js", "Issue" : "public/js/issue.js",
 "Journal Entry" : "public/js/journal_entry.js", "Address" : "public/js/address.js",
-"Payroll Entry" : "public/js/payroll.js"
+"Payroll Entry" : "public/js/payroll.js", "Project" : "public/js/project.js"
 }
 doctype_list_js = {"Customer" : "public/js/customer_list.js",
 "Supplier" : "public/js/supplier_list.js",
@@ -359,7 +359,8 @@ fixtures = [{
             'Employee-custom_hra', 'Employee-custom_column_break_aifvf', 'Employee-custom_performance_allowance', 'Employee-custom_seniority_allowance',
             'Employee-custom_accommodation_allowance', 'Employee-custom_professional_tax', 'Employee-custom_salary_per_day', 'Employee-custom_esi_applicable',
             'Employee-custom_epf_applicable', 'Employee-custom_column_break_p3ofw', 'Employee-custom_uan', 'Employee-custom_esi_id', 'Employee-custom_epf_id',
-            'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr', 'Material Request-custom_task'
+            'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr', 'Material Request-custom_task', 'Project-custom_project_site_details',
+            'Project-custom_site_address', 'Project-custom_site_address_html'
             )]
     ]
     },
