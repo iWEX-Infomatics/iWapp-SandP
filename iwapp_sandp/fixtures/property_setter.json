@@ -1614,5 +1614,37 @@
   "property_type": "Check",
   "row_name": null,
   "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Expense Claim Detail",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "project",
+  "is_system_generated": 0,
+  "modified": "2024-07-08 22:14:51.131082",
+  "module": null,
+  "name": "Expense Claim Detail-project-reqd",
+  "property": "reqd",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Expense Claim Detail",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "project",
+  "is_system_generated": 0,
+  "modified": "2024-07-08 22:14:51.605842",
+  "module": null,
+  "name": "Expense Claim Detail-project-in_list_view",
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
  }
 ]

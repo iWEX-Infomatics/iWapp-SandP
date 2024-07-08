@@ -380,7 +380,8 @@ fixtures = [{
                 "Employee Checkin",
                 "Leave Application",
                 "Employee",
-                "Salary Structure Assignment"
+                "Salary Structure Assignment",
+                "Expense Claim Detail"
             )]
         ]
     }
