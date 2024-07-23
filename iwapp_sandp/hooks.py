@@ -206,6 +206,9 @@ doc_events = {
     },
     "Salary Structure Assignment": {
         "before_save": "iwapp_sandp.events.ss_assignment.before_save",
+    },
+    "Employee Checkin": {
+        "before_save": "iwapp_sandp.events.employee_checkin.before_save",
     }      
 }
 
