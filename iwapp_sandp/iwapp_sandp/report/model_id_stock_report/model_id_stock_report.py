@@ -149,6 +149,7 @@ def execute(filters=None):
 			# Track cumulative quantity for model_id and warehouse
 			key = (sle.get("model_id"), sle.get("warehouse"))
 			if key not in cumulative_qty:
+				# eg - cumulative_qty[key] = 37  cumulative_qty = {('8565Asian', 'Stores - II'): 37}
 				cumulative_qty[key] = sle.get("qty_after_transaction", 0)
 			else:
 				cumulative_qty[key] += sle.get("actual_qty", 0)
