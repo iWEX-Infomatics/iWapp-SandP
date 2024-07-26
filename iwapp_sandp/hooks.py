@@ -199,7 +199,8 @@ doc_events = {
         "after_insert": "iwapp_sandp.events.expense_claim.after_insert",
     },
     "Employee": {
-        "before_save": "iwapp_sandp.events.employee.before_save",
+        "before_save" : "iwapp_sandp.events.employee.before_save",
+        "after_insert" : "iwapp_sandp.events.employee.after_insert"
     },
      "Payroll Entry": {
         "before_save": "iwapp_sandp.events.payroll.before_save",
@@ -366,7 +367,7 @@ fixtures = [{
             'Employee-custom_accommodation_allowance', 'Employee-custom_professional_tax', 'Employee-custom_salary_per_day', 'Employee-custom_esi_applicable',
             'Employee-custom_epf_applicable', 'Employee-custom_column_break_p3ofw', 'Employee-custom_uan', 'Employee-custom_esi_id', 'Employee-custom_epf_id',
             'Employee-custom_column_break_ai5hr', 'Employee-custom_section_break_ltmhr', 'Material Request-custom_task', 'Project-custom_project_site_details',
-            'Project-custom_site_address', 'Project-custom_site_address_html', "Employee-custom_work_site"
+            'Project-custom_site_address', 'Project-custom_site_address_html', "Employee-custom_work_site", "Employee-custom_barcode"
             )]
     ]
     },

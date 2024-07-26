@@ -30,6 +30,9 @@ def before_save(doc, method):
     if doj:
         service_in_years = calculate_years_since(doj)
         doc.custom_service = service_in_years  # Set the calculated service to custom_service
+
+def after_insert(doc, method):
+    frappe.db.set_value("Employee", doc.name, "custom_barcode", doc.name)
     
 @frappe.whitelist()
 def set_age_and_service_schedular():
