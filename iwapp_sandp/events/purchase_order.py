@@ -22,3 +22,39 @@ def before_save(doc, method):
                             item.description = f"{item.item_name}, {brand} - {item.custom_model_id}"
                         item.brand = brand
                         item.custom_from_model_id = 1
+
+@frappe.whitelist()
+def get_last_purchase_rate(supplier, item_code):
+    rates = frappe.db.sql("""
+                SELECT
+                    po.name,
+                    po.transaction_date,
+                    poi.rate
+                FROM
+                    `tabPurchase Order` as po JOIN
+                    `tabPurchase Order Item` as poi ON
+                    poi.parent = po.name
+                WHERE
+                    poi.item_code = %s AND po.supplier = %s
+                ORDER BY
+                    po.transaction_date DESC
+                LIMIT 5
+                          """, (item_code, supplier) , as_dict = 1)
+    # by using str.format()
+    # rates = frappe.db.sql("""
+    #             SELECT
+    #                 po.name,
+    #                 po.transaction_date,
+    #                 poi.rate
+    #             FROM
+    #                 `tabPurchase Order` as po JOIN
+    #                 `tabPurchase Order Item` as poi ON
+    #                 poi.parent = po.name
+    #             WHERE
+    #                 poi.item_code = '{}' AND po.supplier = '{}'
+    #             ORDER BY
+    #                 po.transaction_date DESC
+    #             LIMIT 5
+    #           """.format(item_code, supplier), as_dict=1)
+
+    return rates

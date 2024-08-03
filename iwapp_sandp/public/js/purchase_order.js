@@ -47,6 +47,21 @@ frappe.ui.form.on('Purchase Order Item', {
         if (item.custom_model_id) {
             frappe.model.set_value(cdt, cdn, "custom_model_id", "")
         }
+        if (frm.doc.supplier && item.item_code) {
+            frappe.call({
+                method: "iwapp_sandp.events.purchase_order.get_last_purchase_rate",
+                args: {
+                    supplier: frm.doc.supplier,
+                    item_code: item.item_code
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        let data = r.message;
+                        show_rate_dialog(frm, item, data)
+                    }
+                }
+            })
+        }
     }
 });
 var set_site_address_filter = function (frm) {
@@ -98,4 +113,60 @@ var dislpay_site_address = function (frm) {
                 frm.set_df_property('custom_site_address_html', 'options', site_address_display);
             });
     }
+}
+
+function show_rate_dialog(frm, item, data) {
+    let fields = [{
+        fieldname: "rates",
+        fieldtype: 'Table',
+        cannot_add_rows: true,
+        cannot_delete_rows: true,
+        in_place_edit: true,
+        fields: [
+            {
+                label: 'Purchase Order',
+                fieldname: 'name',
+                fieldtype: 'Link',
+                options: 'Purchase Order',
+                in_list_view: 1,
+                read_only: 1,
+                columns: 3
+            },
+            {
+                label: 'Date',
+                fieldname: 'transaction_date',
+                fieldtype: 'Date',
+                in_list_view: 1,
+                read_only: 1,
+                columns: 3
+            },
+            {
+                label: 'Last Purchase Rate',
+                fieldname: 'rate',
+                fieldtype: 'Currency',
+                in_list_view: 1,
+                read_only: 1,
+                columns: 3
+            },
+        ],
+        data: data,
+
+    }]
+    let d = new frappe.ui.Dialog({
+        title: 'Last Purchase Rate of ' + frm.doc.supplier,
+        size: 'large',
+        fields: fields,
+        primary_action_label: 'Select',
+        primary_action(value) {
+            let selected_rate = d.fields_dict.rates.grid.get_selected_children();
+            if (selected_rate.length > 1){
+                frappe.throw("You can only select one row for Last Purchase Rate.")
+            }
+            else{
+                frappe.model.set_value(item.doctype, item.name, "rate", selected_rate[0].rate)
+            }
+            d.hide();
+        }
+    })
+    d.show()
 }
