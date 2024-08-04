@@ -35,11 +35,12 @@ def get_last_purchase_rate(supplier, item_code):
                     `tabPurchase Order Item` as poi ON
                     poi.parent = po.name
                 WHERE
-                    poi.item_code = %s AND po.supplier = %s
+                    po.docstatus = 1 AND poi.item_code = %s AND po.supplier = %s
                 ORDER BY
                     po.transaction_date DESC
                 LIMIT 5
                           """, (item_code, supplier) , as_dict = 1)
+
     # by using str.format()
     # rates = frappe.db.sql("""
     #             SELECT

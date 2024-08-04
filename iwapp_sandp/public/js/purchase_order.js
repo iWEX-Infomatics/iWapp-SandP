@@ -55,7 +55,7 @@ frappe.ui.form.on('Purchase Order Item', {
                     item_code: item.item_code
                 },
                 callback: function (r) {
-                    if (r.message) {
+                    if (r.message.length > 0) {
                         let data = r.message;
                         show_rate_dialog(frm, item, data)
                     }
