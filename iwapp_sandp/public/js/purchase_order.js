@@ -26,6 +26,7 @@ frappe.ui.form.on('Purchase Order Item', {
         var item = locals[cdt][cdn];
         frappe.model.set_value(cdt, cdn, "description", "")
         if (item.custom_model_id) {
+            get_last_purchase_rate(frm, item)
             frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"]).then(response => {
                 const brand_and_spec = response.message;
                 if (brand_and_spec) {
@@ -47,20 +48,8 @@ frappe.ui.form.on('Purchase Order Item', {
         if (item.custom_model_id) {
             frappe.model.set_value(cdt, cdn, "custom_model_id", "")
         }
-        if (frm.doc.supplier && item.item_code) {
-            frappe.call({
-                method: "iwapp_sandp.events.purchase_order.get_last_purchase_rate",
-                args: {
-                    supplier: frm.doc.supplier,
-                    item_code: item.item_code
-                },
-                callback: function (r) {
-                    if (r.message.length > 0) {
-                        let data = r.message;
-                        show_rate_dialog(frm, item, data)
-                    }
-                }
-            })
+        if (frm.doc.supplier && item.item_code && item.custom_has_model_id == 0) {
+            get_last_purchase_rate(frm, item)
         }
     }
 });
@@ -85,7 +74,7 @@ var dislpay_site_address = function (frm) {
                 // Initialize an array to hold the address components
                 let address_components = [doc.address_line1];
 
-                // Always add city
+                // Arlways add city
                 address_components.push(doc.city);
 
                 // Check if county and city are the same, ignoring case sensitivity
@@ -104,7 +93,7 @@ var dislpay_site_address = function (frm) {
                 // Add doc.pincode to the address components if it exists, formatted with a dash and a space
                 if (doc.pincode) {
                     address_components.push(`- ${doc.pincode}`);
-                }
+                } r
 
                 // Join the address components with a comma and space, but leave out the final comma
                 const site_address_display = address_components.join(', ').replace(/, (?=\-)/, ' ');
@@ -114,7 +103,21 @@ var dislpay_site_address = function (frm) {
             });
     }
 }
-
+function get_last_purchase_rate(frm, item) {
+    frappe.call({
+        method: "iwapp_sandp.events.purchase_order.get_last_purchase_rate",
+        args: {
+            item_code: item.item_code,
+            model_id: item.custom_model_id
+        },
+        callback: function (r) {
+            if (r.message.length > 0) {
+                let data = r.message;
+                show_rate_dialog(frm, item, data)
+            }
+        }
+    })
+}
 function show_rate_dialog(frm, item, data) {
     let fields = [{
         fieldname: "rates",
@@ -124,21 +127,38 @@ function show_rate_dialog(frm, item, data) {
         in_place_edit: true,
         fields: [
             {
-                label: 'Purchase Order',
+                label: 'Purchase Invoice',
                 fieldname: 'name',
                 fieldtype: 'Link',
-                options: 'Purchase Order',
+                options: 'Purchase Invoice',
                 in_list_view: 1,
                 read_only: 1,
                 columns: 3
             },
+            // {
+            //     label: 'Supplier',
+            //     fieldname: 'supplier',
+            //     fieldtype: 'Link',
+            //     options: 'Supplier',
+            //     in_list_view: 1,
+            //     read_only: 1,
+            //     columns: 2
+            // },
             {
                 label: 'Date',
-                fieldname: 'transaction_date',
+                fieldname: 'posting_date',
                 fieldtype: 'Date',
                 in_list_view: 1,
                 read_only: 1,
-                columns: 3
+                columns: 2
+            },
+            {
+                label: 'Quantity',
+                fieldname: 'qty',
+                fieldtype: 'Float',
+                in_list_view: 1,
+                read_only: 1,
+                columns: 2
             },
             {
                 label: 'Last Purchase Rate',
@@ -159,10 +179,10 @@ function show_rate_dialog(frm, item, data) {
         primary_action_label: 'Select',
         primary_action(value) {
             let selected_rate = d.fields_dict.rates.grid.get_selected_children();
-            if (selected_rate.length > 1){
+            if (selected_rate.length > 1) {
                 frappe.throw("You can only select one row for Last Purchase Rate.")
             }
-            else{
+            else {
                 frappe.model.set_value(item.doctype, item.name, "rate", selected_rate[0].rate)
             }
             d.hide();

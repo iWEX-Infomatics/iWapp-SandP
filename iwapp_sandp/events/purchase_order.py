@@ -9,7 +9,7 @@ def validate(doc, method):
 
 def before_save(doc, method):
     if doc.items:
-        for item in doc.items:
+        for item in doc.oitems:
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:
                     brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])
@@ -24,22 +24,43 @@ def before_save(doc, method):
                         item.custom_from_model_id = 1
 
 @frappe.whitelist()
-def get_last_purchase_rate(supplier, item_code):
-    rates = frappe.db.sql("""
+def get_last_purchase_rate(item_code, model_id = None):
+    if model_id:
+        rates = frappe.db.sql("""
                 SELECT
-                    po.name,
-                    po.transaction_date,
-                    poi.rate
+                    pi.name,
+                    pi.posting_date,
+                    pi.supplier,
+                    pii.rate,
+                    pii.qty
                 FROM
-                    `tabPurchase Order` as po JOIN
-                    `tabPurchase Order Item` as poi ON
-                    poi.parent = po.name
+                    `tabPurchase Invoice` as pi JOIN
+                    `tabPurchase Invoice Item` as pii ON
+                    pii.parent = pi.name
                 WHERE
-                    po.docstatus = 1 AND poi.item_code = %s AND po.supplier = %s
+                    pi.docstatus = 1 AND pii.item_code = %s and pii.custom_model_id = %s
                 ORDER BY
-                    po.transaction_date DESC
-                LIMIT 5
-                          """, (item_code, supplier) , as_dict = 1)
+                    pi.posting_date DESC
+                LIMIT 10
+                          """, (item_code, model_id) , as_dict = 1)
+    else:
+        rates = frappe.db.sql("""
+                    SELECT
+                        pi.name,
+                        pi.posting_date,
+                        pi.supplier,
+                        pii.rate,
+                        pii.qty
+                    FROM
+                        `tabPurchase Invoice` as pi JOIN
+                        `tabPurchase Invoice Item` as pii ON
+                        pii.parent = pi.name
+                    WHERE
+                        pi.docstatus = 1 AND pii.item_code = %s
+                    ORDER BY
+                        pi.posting_date DESC
+                    LIMIT 10
+                            """, (item_code) , as_dict = 1)
 
     # by using str.format()
     # rates = frappe.db.sql("""
@@ -57,5 +78,5 @@ def get_last_purchase_rate(supplier, item_code):
     #                 po.transaction_date DESC
     #             LIMIT 5
     #           """.format(item_code, supplier), as_dict=1)
-
+    print(rates)
     return rates
