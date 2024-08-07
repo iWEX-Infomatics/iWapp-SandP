@@ -139,6 +139,22 @@ frappe.ui.form.on('Sales Order Item', {
         var item = locals[cdt][cdn];
         frappe.model.set_value(cdt, cdn, "description", "")
         if (item.custom_model_id) {
+            frappe.db.count('Serial No', {
+                filters: {
+                    status: 'Active',
+                    warehouse: item.warehouse,
+                    item_code: item.item_code,
+                    custom_model_id: item.custom_model_id
+                }
+            })
+                .then(count => {
+                    if (count) {
+                        frappe.msgprint(`${parseFloat(count).toFixed(1)} units of <b><u>Item ${item.item_code}</u></b> with <b><u>Model ID ${item.custom_model_id}</u></b> available in <b><u>Warehouse ${item.warehouse}</u></b>`);
+                    }
+                    else {
+                        frappe.msgprint(`No units of <b><u>Item ${item.item_code}</u></b> with <b><u>Model ID ${item.custom_model_id}</u></b> available in <b><u>Warehouse ${item.warehouse}</u></b>.`);
+                    }
+                })
             frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"]).then(response => {
                 const brand_and_spec = response.message;
                 if (brand_and_spec) {
@@ -157,10 +173,48 @@ frappe.ui.form.on('Sales Order Item', {
     },
     item_code: function (frm, cdt, cdn) {
         var item = locals[cdt][cdn];
+        fetch_actual_qty(item)
         if (item.custom_model_id) {
             frappe.model.set_value(cdt, cdn, "custom_model_id", "")
         }
+    },
+    // warehouse:function(frm, cdt, cdn){
+    //     var item = locals[cdt][cdn];
+    //     fetch_actual_qty(item)
+    // },
+    qty: function (frm, cdt, cdn) {
+        var item = locals[cdt][cdn];
+        if (item.item_code && item.qty && item.warehouse) {
+            if (item.custom_has_model_id == 0) {
+                frappe.db.get_value('Bin', { item_code: item.item_code, warehouse: item.warehouse }, 'actual_qty')
+                    .then(r => {
+                        if (r.message.actual_qty && r.message.actual_qty < item.qty) {
+                            let diff_qty = item.qty - r.message.actual_qty;
+                            frappe.msgprint(`${parseFloat(diff_qty).toFixed(1)} units of <b><u>Item ${item.item_code}</u></b> needed in <b><u>Warehouse ${item.warehouse}</u></b> to complete this transaction.`);
+                        }
+                    });
+            }
+            else {
+                if (item.custom_model_id) {
+                    frappe.db.count('Serial No', {
+                        filters: {
+                            status: 'Active',
+                            warehouse: item.warehouse,
+                            item_code: item.item_code,
+                            custom_model_id: item.custom_model_id
+                        }
+                    })
+                        .then(count => {
+                            if (count && count < item.qty) {
+                                let diff_qty = item.qty - count
+                                frappe.msgprint(`${parseFloat(diff_qty).toFixed(1)} units of <b><u>Item ${item.item_code}</u></b> <b><u>Model ID ${item.custom_model_id}</u></b> needed in <b><u>Warehouse ${item.warehouse}</u></b> to complete this transaction.`);
+                            }
+                        })
+                }
+            }
+        }
     }
+
 });
 var set_site_address_filter = function (frm) {
     if (frm.doc.customer) {
@@ -211,4 +265,21 @@ var dislpay_site_address = function (frm) {
                 frm.set_df_property('custom_site_address_html', 'options', site_address_display);
             });
     }
+}
+
+function fetch_actual_qty(item) {
+    if (item.item_code && item.warehouse) {
+        if (item.custom_has_model_id == 0) {
+            frappe.db.get_value('Bin', { item_code: item.item_code, warehouse: item.warehouse }, 'actual_qty')
+                .then(r => {
+                    if (r.message.actual_qty) {
+                        frappe.msgprint(`${parseFloat(r.message.actual_qty).toFixed(1)} units of <b><u>Item ${item.item_code}</u></b> available in <b><u>Warehouse ${item.warehouse}</u></b>`);
+                    }
+                    else {
+                        frappe.msgprint(`No units of <b><u>Item ${item.item_code}</u></b> available in <b><u>Warehouse ${item.warehouse}</u></b>.`);
+                    }
+                })
+        }
+    }
+
 }

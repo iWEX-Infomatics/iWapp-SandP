@@ -173,7 +173,7 @@ function show_rate_dialog(frm, item, data) {
 
     }]
     let d = new frappe.ui.Dialog({
-        title: 'Last Purchase Rate of ' + frm.doc.supplier,
+        title: 'Last Purchase Rate of ' + item.item_code,
         size: 'large',
         fields: fields,
         primary_action_label: 'Select',
