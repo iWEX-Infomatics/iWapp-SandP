@@ -9,7 +9,7 @@ def validate(doc, method):
 
 def before_save(doc, method):
     if doc.items:
-        for item in doc.oitems:
+        for item in doc.items:
             if item.custom_from_model_id == 0:
                 if item.custom_model_id:
                     brand_and_spec = frappe.db.get_value('Item Model ID', item.custom_model_id, ["brand", "specification"])
