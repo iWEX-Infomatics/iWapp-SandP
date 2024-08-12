@@ -1646,5 +1646,53 @@
   "property_type": "Data",
   "row_name": null,
   "value": "[\"basic_details_tab\", \"basic_information\", \"employee\", \"naming_series\", \"first_name\", \"middle_name\", \"last_name\", \"column_break_9\", \"employee_name\", \"salutation\", \"gender\", \"column_break1\", \"date_of_birth\", \"date_of_joining\", \"image\", \"status\", \"custom_column_break_g2lqt\", \"custom_age\", \"custom_service\", \"erpnext_user\", \"user_id\", \"create_user\", \"create_user_permission\", \"custom_user_api_secret\", \"custom_column_break_7jvv2\", \"custom_work_from\", \"custom_office_location\", \"custom_home_location\", \"custom_session_expiry_mobile\", \"custom_section_break_ipltb\", \"company_details_section\", \"company\", \"department\", \"employment_type\", \"column_break_25\", \"employee_number\", \"designation\", \"reports_to\", \"column_break_18\", \"branch\", \"custom_work_site\", \"grade\", \"employment_details\", \"job_applicant\", \"scheduled_confirmation_date\", \"column_break_32\", \"final_confirmation_date\", \"contract_end_date\", \"col_break_22\", \"notice_number_of_days\", \"date_of_retirement\", \"contact_details\", \"cell_number\", \"column_break_40\", \"personal_email\", \"company_email\", \"column_break4\", \"prefered_contact_email\", \"prefered_email\", \"unsubscribed\", \"address_section\", \"current_address\", \"current_accommodation_type\", \"custom_barcode\", \"column_break_46\", \"permanent_address\", \"permanent_accommodation_type\", \"emergency_contact_details\", \"person_to_be_contacted\", \"column_break_55\", \"emergency_phone_number\", \"column_break_19\", \"relation\", \"attendance_and_leave_details\", \"attendance_device_id\", \"custom_last_pinged_on\", \"custom_leave_policy\", \"column_break_44\", \"holiday_list\", \"default_shift\", \"approvers_section\", \"expense_approver\", \"custom_payable_account\", \"column_break_45\", \"leave_approver\", \"shift_request_approver\", \"salary_information\", \"custom_net_pay\", \"custom_gross_salary\", \"custom_basic_pay\", \"custom_da\", \"custom_hra\", \"custom_column_break_aifvf\", \"custom_performance_allowance\", \"custom_seniority_allowance\", \"custom_accommodation_allowance\", \"custom_professional_tax\", \"ctc\", \"salary_cb\", \"custom_salary_per_day\", \"salary_currency\", \"payroll_cost_center\", \"custom_esi_applicable\", \"custom_epf_applicable\", \"custom_column_break_p3ofw\", \"provident_fund_account\", \"salary_mode\", \"custom_uan\", \"custom_esi_id\", \"custom_epf_id\", \"pan_number\", \"bank_details_section\", \"custom_beneficiary_name\", \"bank_name\", \"bank_ac_no\", \"column_break_heye\", \"ifsc_code\", \"micr_code\", \"bank_cb\", \"iban\", \"personal_details\", \"marital_status\", \"family_background\", \"column_break6\", \"blood_group\", \"health_details\", \"health_insurance_section\", \"health_insurance_provider\", \"health_insurance_no\", \"custom_column_break_ai5hr\", \"custom_section_break_ltmhr\", \"custom_aadhaar_id\", \"passport_details_section\", \"passport_number\", \"valid_upto\", \"column_break_73\", \"date_of_issue\", \"place_of_issue\", \"profile_tab\", \"bio\", \"educational_qualification\", \"education\", \"previous_work_experience\", \"external_work_history\", \"history_in_company\", \"internal_work_history\", \"exit\", \"resignation_letter_date\", \"relieving_date\", \"exit_interview_details\", \"held_on\", \"new_workplace\", \"column_break_99\", \"leave_encashed\", \"encashment_date\", \"feedback_section\", \"reason_for_leaving\", \"column_break_104\", \"feedback\", \"lft\", \"rgt\", \"old_parent\", \"connections_tab\"]"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "item_name",
+  "is_system_generated": 1,
+  "modified": "2024-08-06 13:54:43.807715",
+  "module": null,
+  "name": "Item-item_name-in_list_view",
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "item_group",
+  "is_system_generated": 1,
+  "modified": "2024-08-06 13:54:43.836494",
+  "module": null,
+  "name": "Item-item_group-in_list_view",
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Item",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "custom_has_model_id",
+  "is_system_generated": 1,
+  "modified": "2024-08-06 13:54:43.858686",
+  "module": null,
+  "name": "Item-custom_has_model_id-in_list_view",
+  "property": "in_list_view",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
  }
 ]
