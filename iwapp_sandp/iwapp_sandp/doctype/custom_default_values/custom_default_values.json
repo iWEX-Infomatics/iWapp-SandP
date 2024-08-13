@@ -11,7 +11,9 @@
   "item_tax_section",
   "taxes",
   "item_defaults_section",
-  "item_defaults"
+  "item_defaults",
+  "activity_cost_section",
+  "percent"
  ],
  "fields": [
   {
@@ -39,12 +41,22 @@
    "fieldtype": "Table",
    "label": "Item Defaults",
    "options": "Custom Item Defaults"
+  },
+  {
+   "fieldname": "activity_cost_section",
+   "fieldtype": "Section Break",
+   "label": "Activity Cost"
+  },
+  {
+   "fieldname": "percent",
+   "fieldtype": "Percent",
+   "label": "Percent"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-01 16:49:25.176017",
+ "modified": "2024-08-13 11:40:57.359326",
  "modified_by": "Administrator",
  "module": "iWapp-SandP",
  "name": "Custom Default Values",
