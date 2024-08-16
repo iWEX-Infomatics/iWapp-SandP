@@ -4,7 +4,6 @@ from frappe.utils import (
     time_diff_in_hours,
     get_time,
     getdate,
-    getdate
 )
 from frappe import _
 import frappe

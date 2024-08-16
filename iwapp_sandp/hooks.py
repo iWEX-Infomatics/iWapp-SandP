@@ -35,7 +35,7 @@ doctype_js = {"Purchase Order" : "public/js/purchase_order.js",
 "Sales Order" : "public/js/sales_order.js", "Delivery Note" : "public/js/delivery_note.js",
 "Sales Invoice" : "public/js/sales_invoice.js", "Pick List" : "public/js/pick_list.js",
 "Material Request" : "public/js/material_request.js", "Item" : "public/js/item.js",
-"Installation Note" : "public/js/installation_note.js", "Employee Checkin" : "public/js/employee_checkin.js",
+"Installation Note" : "public/js/installation_note.js",
 "Task" : "public/js/task.js", "Opportunity" : "public/js/opportunity.js",
 "Quotation" : "public/js/quotation.js", "Payment Entry" : "public/js/payment_entry.js",
 "Blanket Order" : "public/js/blanket_order.js", "Issue" : "public/js/issue.js",
@@ -196,9 +196,6 @@ doc_events = {
         "validate": "iwapp_sandp.events.quotation.validate",
         # "before_save": "iwapp_sandp.events.quotation.before_save"
     },
-    "Expense Claim": {
-        "after_insert": "iwapp_sandp.events.expense_claim.after_insert",
-    },
     "Employee": {
         "before_save" : "iwapp_sandp.events.employee.before_save",
         "after_insert" : "iwapp_sandp.events.employee.after_insert"
@@ -208,9 +205,6 @@ doc_events = {
     },
     "Salary Structure Assignment": {
         "before_save": "iwapp_sandp.events.ss_assignment.before_save",
-    },
-    "Employee Checkin": {
-        "before_save": "iwapp_sandp.events.employee_checkin.before_save",
     },
     # "Attendance":{
     #     "after_submit": "iwapp_sandp.events.attendance.after_submit",
@@ -327,7 +321,7 @@ fixtures = [{
             "Sales Order Item-custom_model_id", "Purchase Receipt Item-custom_from_model_id", "Purchase Order Item-custom_from_model_id",
             "Sales Invoice Item-custom_from_model_id", "Sales Order Item-custom_from_model_id", "Delivery Note Item-custom_from_model_id",
             "Pick List Item-custom_from_model_id", "Stock Entry Detail-custom_from_model_id", "Stock Reconciliation Item-custom_from_model_id",
-            "Installation Note Item-custom_from_model_id", "Employee Checkin-custom_date", "Opportunity-custom_project_site_details",
+            "Installation Note Item-custom_from_model_id", "Opportunity-custom_project_site_details",
             "Opportunity-custom_site_address", "Opportunity-custom_site_address_html", "Task-custom_project_name",
             "Task-custom_customer", "Task-custom_project_site_details", "Task-custom_site_address", "Task-custom_site_address_html",
             "Quotation-custom_project_site_details", "Quotation-custom_site_address", "Quotation-custom_site_address_html",
@@ -357,8 +351,7 @@ fixtures = [{
             "Sales Order Item-custom_has_batch_no", "Batch-custom_brand", "Batch-custom_model_id", "Purchase Receipt Item-custom_has_batch_no",
             "Delivery Note Item-custom_has_model_id", "Delivery Note Item-custom_has_serial_no", "Sales Order Item-custom_has_serial_no",
             "Sales Order Item-custom_has_model_id", "Delivery Note Item-custom_model_wise_serial", "Purchase Receipt Item-custom_item_group",
-            "Employee Checkin-custom_location", "Employee Checkin-custom_selfie", "Employee Checkin-custom_attendance_marked",
-            "Employee Checkin-custom_work_from", "Leave Application-custom_shift", "Leave Application-custom_abbr",
+            "Leave Application-custom_shift", "Leave Application-custom_abbr",
             'Employee-custom_work_from', 'Employee-custom_column_break_g2lqt', 'Employee-custom_age',
             'Employee-custom_service', 'Employee-custom_column_break_7jvv2', 'Employee-custom_office_location',
             'Employee-custom_home_location', 'Employee-custom_session_expiry_mobile', 'Employee-custom_section_break_ipltb',
@@ -385,7 +378,7 @@ fixtures = [{
                 "Sales Order Item",
                 "Project",
                 "Item",
-                "Employee Checkin",
+                # "Employee Checkin",
                 "Leave Application",
                 "Employee",
                 "Salary Structure Assignment",
