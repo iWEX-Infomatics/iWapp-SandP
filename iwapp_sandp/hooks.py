@@ -378,7 +378,6 @@ fixtures = [{
                 "Sales Order Item",
                 "Project",
                 "Item",
-                # "Employee Checkin",
                 "Leave Application",
                 "Employee",
                 "Salary Structure Assignment",
