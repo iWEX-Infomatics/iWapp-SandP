@@ -1,7 +1,7 @@
 app_name = "iwapp_sandp"
 app_title = "iWapp-SandP"
 app_publisher = "Iwex Informatics"
-app_description = "iWapp-SandP"
+app_description = "iWapp-Caits"
 app_email = "emails@iwex.in"
 app_license = "MIT"
 
