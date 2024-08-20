@@ -1,5 +1,5 @@
 app_name = "iwapp_sandp"
-app_title = "iWapp-SandP"
+app_title = "iWapp-Caits"
 app_publisher = "Iwex Informatics"
 app_description = "iWapp-Caits"
 app_email = "emails@iwex.in"
@@ -378,6 +378,7 @@ fixtures = [{
                 "Sales Order Item",
                 "Project",
                 "Item",
+                # "Employee Checkin",
                 "Leave Application",
                 "Employee",
                 "Salary Structure Assignment",
