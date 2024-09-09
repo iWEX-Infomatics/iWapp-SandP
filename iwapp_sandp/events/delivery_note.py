@@ -11,6 +11,8 @@ def validate(doc, method):
             rows_str = ", ".join(rows_with_missing_model_id)
             frappe.throw(f"Mandatory fields required in Delivery Note Item for <b>Model ID</b> in <b>{rows_str}.</b>")
         for i in doc.items:
+            if doc.is_return == 1:  # This line checks if the document is a return
+                continue  # This line skips the serial number validation for return documents
             if i.custom_model_id:
                 if i.custom_has_serial_no == 1:
                     if i.custom_model_wise_serial == 1:
